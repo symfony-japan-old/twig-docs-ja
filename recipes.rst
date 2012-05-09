@@ -1,13 +1,10 @@
-Recipes
+レシピ
 =======
 
-Making a Layout conditional
+レイアウトの条件分岐を作る
 ---------------------------
 
-Working with Ajax means that the same content is sometimes displayed as is,
-and sometimes decorated with a layout. As Twig layout template names can be
-any valid expression, you can pass a variable that evaluates to ``true`` when
-the request is made via Ajax and choose the layout accordingly:
+Ajax と連携させることは同じコンテンツがときにそのまま表示されたり、レイアウトによってデコレートされることを意味します。Twig のレイアウトテンプレート名は任意の有効な式になるので、Ajax を通じてリクエストが行われるときに `true` に評価される式を渡し、それにしたがってレイアウトを選ぶことができます。
 
 .. code-block:: jinja
 
@@ -17,44 +14,37 @@ the request is made via Ajax and choose the layout accordingly:
         This is the content to be displayed.
     {% endblock %}
 
-Making an Include dynamic
+インクルードを動的に行う
 -------------------------
 
-When including a template, its name does not need to be a string. For
-instance, the name can depend on the value of a variable:
+テンプレートをインクルードするとき、名前は文字列である必要はありません。たとえば、名前は可変変数の値に依存することができます。
 
 .. code-block:: jinja
 
     {% include var ~ '_foo.html' %}
 
-If ``var`` evaluates to ``index``, the ``index_foo.html`` template will be
-rendered.
+``var`` は ``index`` に評価され、 ``index_foo.html`` テンプレートはレンダリングされます。
 
-As a matter of fact, the template name can be any valid expression, such as
-the following:
+当然のことながら、テンプレートの名前は次のような任意の有効な式になります。
 
 .. code-block:: jinja
 
     {% include var|default('index') ~ '_foo.html' %}
 
-Overriding a Template that also extends itself
+自分自身も継承するテンプレートをオーバーライドする
 ----------------------------------------------
 
-A template can be customized in two different ways:
+テンプレートは2つの異なる方法でカスタマイズできます。
 
-* *Inheritance*: A template *extends* a parent template and overrides some
-  blocks;
+* *継承*: テンプレートは親テンプレートを *拡張し* ブロックをオーバーライドします;
 
-* *Replacement*: If you use the filesystem loader, Twig loads the first
-  template it finds in a list of configured directories; a template found in a
-  directory *replaces* another one from a directory further in the list.
+* *置き換え*: ファイルシステムのローダーを使う場合、Twig は指定されたディレクトリのリストで見つかる最初のテンプレートをロードします;
+  ディレクトリで見つかるテンプレートはさらにリストで見つかるディレクトリから 別のものに *置き換えます* 。
 
-But how do you combine both: *replace* a template that also extends itself
-(aka a template in a directory further in the list)?
+しかし両方を組み合わせる: 自分自身も拡張するテンプレートを *置き換える* にはどうしたらよいでしょうか？ (言い換えるとさらにリストで見つかるディレクトリのテンプレート)?
 
-Let's say that your templates are loaded from both ``.../templates/mysite``
-and ``.../templates/default`` in this order. The ``page.twig`` template,
-stored in ``.../templates/default`` reads as follows:
+テンプレートは ``.../templates/mysite``
+と ``.../templates/default`` の両方からこの順番でロードされるとします。 ``.../templates/default`` に保存される ``page.twig`` テンプレートは次のようになります。
 
 .. code-block:: jinja
 
@@ -64,25 +54,16 @@ stored in ``.../templates/default`` reads as follows:
     {% block content %}
     {% endblock %}
 
-You can replace this template by putting a file with the same name in
-``.../templates/mysite``. And if you want to extend the original template, you
-might be tempted to write the following:
+``.../templates/mysite`` において同じ名前のファイルを置くことでこのテンプレートを置き換えることができます。そしてオリジナルのテンプレートを拡張したいのであれば、次のように書きたいと思うかもしれません。
 
 .. code-block:: jinja
 
     {# page.twig in .../templates/mysite #}
     {% extends "page.twig" %} {# from .../templates/default #}
 
-Of course, this will not work as Twig will always load the template from
-``.../templates/mysite``.
+もちろん、このコードは動きません。Twig は常に ``.../templates/mysite`` からテンプレートをロードするからです。
 
-It turns out it is possible to get this to work, by adding a directory right
-at the end of your template directories, which is the parent of all of the
-other directories: ``.../templates`` in our case. This has the effect of
-making every template file within our system uniquely addressable. Most of the
-time you will use the "normal" paths, but in the special case of wanting to
-extend a template with an overriding version of itself we can reference its
-parent's full, unambiguous template path in the extends tag:
+テンプレートディレクトリ、我々のケースではほかの親のすべてのディレクトリ: ``.../templates`` 、のすぐ後にディレクトリを追加することで、動かせることがすぐにわかります。 です。これによってシステムの範囲になるすべてのテンプレートファイルのアドレスを一意に指定できるようになる効果があります。大抵の場合、「通常の」パスを使うことになりますが、自分自身のバージョンをオーバーライドすることでテンプレートを拡張したい特別なケースの場合、extends タグの中で、親の完全で、完全ではないテンプレートパスを参照することができます。
 
 .. code-block:: jinja
 
@@ -91,17 +72,15 @@ parent's full, unambiguous template path in the extends tag:
 
 .. note::
 
-    This recipe was inspired by the following Django wiki page:
+    このレシピは Django の wiki ページにインスパイアされて書きました:
     http://code.djangoproject.com/wiki/ExtendingTemplates
 
-Customizing the Syntax
-----------------------
+構文をカスタマイズする
+-----------------------
 
-Twig allows some syntax customization for the block delimiters. It's not
-recommended to use this feature as templates will be tied with your custom
-syntax. But for specific projects, it can make sense to change the defaults.
+Twig はブロックの区切り文字の構文をカスタマイズすることを許可します。テンプレートがあなたのカスタム構文に結びつけられてしまうので、このフィーチャはおすすめしません。しかし特定のプロジェクトにおいて、デフォルトを変更するのに役立つことがあります。
 
-To change the block delimiters, you need to create your own lexer object::
+ブロックの区切り文字を変更するために、レキサーオブジェクトをつくる必要があります。::
 
     $twig = new Twig_Environment();
 
@@ -112,39 +91,35 @@ To change the block delimiters, you need to create your own lexer object::
     ));
     $twig->setLexer($lexer);
 
-Here are some configuration example that simulates some other template engines
-syntax::
+ほかのテンプレートエンジンの構文をシミュレートするコンフィギュレーションのサンプルは次のとおりです。::
 
-    // Ruby erb syntax
+    // Ruby erb 構文
     $lexer = new Twig_Lexer($twig, array(
         'tag_comment'  => array('<%#', '%>'),
         'tag_block'    => array('<%', '%>'),
         'tag_variable' => array('<%=', '%>'),
     ));
 
-    // SGML Comment Syntax
+    // SGML コメント構文
     $lexer = new Twig_Lexer($twig, array(
         'tag_comment'  => array('<!--#', '-->'),
         'tag_block'    => array('<!--', '-->'),
         'tag_variable' => array('${', '}'),
     ));
 
-    // Smarty like
+    // Smarty 形式
     $lexer = new Twig_Lexer($twig, array(
         'tag_comment'  => array('{*', '*}'),
         'tag_block'    => array('{', '}'),
         'tag_variable' => array('{$', '}'),
     ));
 
-Using dynamic Object Properties
--------------------------------
+動的なオブジェクトプロパティを使う
+-----------------------------------
 
-When Twig encounters a variable like ``article.title``, it tries to find a
-``title`` public property in the ``article`` object.
+Twig は ``article.title`` のような変数に遭遇すると、 `article` オブジェクトの中の `title` のパブリック変数を見つけようとします。
 
-It also works if the property does not exist but is rather defined dynamically
-thanks to the magic ``__get()`` method; you just need to also implement the
-``__isset()`` magic method like shown in the following snippet of code::
+プロパティが存在しない場合でも  ``__get()`` マジックメソッドのおかげで、動的に定義されるので、これは機能します; 次のコードのスニペットで示される ``__isset()`` マジックメソッドを実装することだけが必要です。::
 
     class Article
     {
@@ -154,7 +129,7 @@ thanks to the magic ``__get()`` method; you just need to also implement the
                 return 'The title';
             }
 
-            // throw some kind of error
+            // 何らかのエラーを投げます
         }
 
         public function __isset($name)
@@ -167,12 +142,10 @@ thanks to the magic ``__get()`` method; you just need to also implement the
         }
     }
 
-Accessing the parent Context in Nested Loops
---------------------------------------------
+入れ子ループの中で親のコンテキストにアクセスする
+-------------------------------------------------
 
-Sometimes, when using nested loops, you need to access the parent context. The
-parent context is always accessible via the ``loop.parent`` variable. For
-instance, if you have the following template data::
+ときに、入れ子のループを使うとき、親のコンテキストにアクセスすることが必要になります。親のコンテキストは  ``loop.parent`` 変数を通じてアクセスできます。たとえば、次のテンプレートのデータがあるとします。::
 
     $data = array(
         'topics' => array(
@@ -181,7 +154,7 @@ instance, if you have the following template data::
         ),
     );
 
-And the following template to display all messages in all topics:
+そして、すべてのトピックですべてのメッセージを表示するテンプレートは次のようになります。
 
 .. code-block:: jinja
 
@@ -192,7 +165,7 @@ And the following template to display all messages in all topics:
       {% endfor %}
     {% endfor %}
 
-The output will be similar to:
+出力は次のようになります。
 
 .. code-block:: text
 
@@ -203,22 +176,18 @@ The output will be similar to:
       - 2.1: The message 1 of topic 2
       - 2.2: The message 2 of topic 2
 
-In the inner loop, the ``loop.parent`` variable is used to access the outer
-context. So, the index of the current ``topic`` defined in the outer for loop
-is accessible via the ``loop.parent.loop.index`` variable.
+内側のループにおいて、 ``loop.parent`` 変数は外側のコンテキストにアクセスするために使われます。ですので、ループに対する外側で定義された現在の ``topic`` のインデックスは ``loop.parent.loop.index`` 変数を通じてアクセスできます。
 
-Defining undefined Functions and Filters on the Fly
----------------------------------------------------
+未定義の関数とフィルタをその場で定義する
+-----------------------------------------
 
-When a function (or a filter) is not defined, Twig defaults to throw a
-``Twig_Error_Syntax`` exception. However, it can also call a `callback`_ (any
-valid PHP callable) which should return a function (or a filter).
+関数 (もしくはフィルタ) が定義されていないとき、デフォルトでは Twig は ``Twig_Error_Syntax`` の例外を投げます。しかしながら、これは関数 (もしくはフィルタ) を返す `コールバック`_ (PHP の任意の有効な callable) も呼び出します。
 
-For filters, register callbacks with ``registerUndefinedFilterCallback()``.
-For functions, use ``registerUndefinedFunctionCallback()``::
+フィルタに関しては、 ``registerUndefinedFilterCallback()`` でコールバックを登録します。
+関数に関して、 ``registerUndefinedFunctionCallback()`` を使います。::
 
-    // auto-register all native PHP functions as Twig functions
-    // don't try this at home as it's not secure at all!
+    // Twig 関数として PHP ネイティブの関数をすべて自動的に登録します。
+    // まったくセキュアではないので手元で試さないでください！
     $twig->registerUndefinedFunctionCallback(function ($name) {
         if (function_exists($name)) {
             return new Twig_Function_Function($name);
@@ -227,59 +196,50 @@ For functions, use ``registerUndefinedFunctionCallback()``::
         return false;
     });
 
-If the callable is not able to return a valid function (or filter), it must
-return ``false``.
+callable が有効な関数 (もしくはフィルタ) を返すことができなければ、 ``false`` を返さなければなりません。
 
-If you register more than one callback, Twig will call them in turn until one
-does not return ``false``.
+複数のコールバックを登録すると、 ``false`` を返すものがあらわれるまで、それらを順番に呼び出します。
 
 .. tip::
 
-    As the resolution of functions and filters is done during compilation,
-    there is no overhead when registering these callbacks.
+    関数とフィルタの解決はコンパイルのあいだに行われるので、
+    これらのコールバックを登録するときにオーバーヘッドはありません。
 
-Validating the Template Syntax
-------------------------------
+テンプレート構文の妥当性を検証する
+-----------------------------------
 
-When template code is providing by a third-party (through a web interface for
-instance), it might be interesting to validate the template syntax before
-saving it. If the template code is stored in a `$template` variable, here is
-how you can do it::
+テンプレートのコードがサードパーティによって提供される場合 (たとえば Web　インターフェイス)、それを保存する前にテンプレート構文の妥当性を検証するとおもしろいかもしれません。テンプレートのコードが `$template` 変数に保存される場合、次のように書くことができます。::
 
     try {
         $twig->parse($twig->tokenize($template));
 
-        // the $template is valid
+        // $template が妥当である
     } catch (Twig_Error_Syntax $e) {
-        // $template contains one or more syntax errors
+        // $template に構文エラーが含まれる
     }
 
-If you iterate over a set of files, you can pass the filename to the
-``tokenize()`` method to get the filename in the exception message::
+ファイルのセットをイテレートする場合、例外メッセージの中でファイルの名前を得るために
+``tokenize()`` メソッドにファイルの名前を渡すことができます。::
 
     foreach ($files as $file) {
         try {
             $twig->parse($twig->tokenize($template, $file));
 
-            // the $template is valid
+            // $template が妥当である
         } catch (Twig_Error_Syntax $e) {
-            // $template contains one or more syntax errors
+            // $template に構文エラーが含まれる
         }
     }
 
 .. note::
 
-    This method won't catch any sandbox policy violations because the policy
-    is enforced during template rendering (as Twig needs the context for some
-    checks like allowed methods on objects).
+    このメソッドはサンドボックスポリシーの違反をキャッチしません。
+    ポリシーが強制されるのはテンプレートレンダリングの合間だからです (オブジェクトの許可されたメソッドのようなチェックのために Twig はコンテキストを必要とするからです).
 
-Refreshing modified Templates when APC is enabled and apc.stat = 0
-------------------------------------------------------------------
+APC が有効で apc.stat = 0 のときに修正済みのテンプレートをリフレッシュする
+---------------------------------------------------------------------------
 
-When using APC with ``apc.stat`` set to ``0`` and Twig cache enabled, clearing
-the template cache won't update the APC cache. To get around this, one can
-extend ``Twig_Environment`` and force the update of the APC cache when Twig
-rewrites the cache::
+``apc.stat`` に ``0`` の値がセットされており Twig キャッシュが有効な場合、テンプレートキャッシュをクリアしても APC キャッシュが更新されません。これを改善するには、 ``Twig_Environment`` を拡張して、Twig がキャッシュを書き換えるときに APC キャッシュの更新を強制します。::
 
     class Twig_Environment_APC extends Twig_Environment
     {
@@ -287,26 +247,24 @@ rewrites the cache::
         {
             parent::writeCacheFile($file, $content);
 
-            // Compile cached file into bytecode cache
+            // キャッシュ済みのファイルをバイトコードキャッシュにコンパイルします
             apc_compile_file($file);
         }
     }
 
-Reusing a stateful Node Visitor
--------------------------------
+ステートフルなノード Visitor を再利用する
+------------------------------------------
 
-When attaching a visitor to a ``Twig_Environment`` instance, Twig uses it to
-visit *all* templates it compiles. If you need to keep some state information
-around, you probably want to reset it when visiting a new template.
+``Twig_Environment`` インスタンスに Visitor をアタッチするとき、Twig は コンパイルする *すべての* テンプレートに訪問するためにこれを使います。なんらかの状態の情報を保つ必要があれば、新しいテンプレートに訪問するときに、それをリセットするとよいでしょう。
 
-This can be easily achieved with the following code::
+これは次のコードによってかんたんに実現できます。::
 
     protected $someTemplateState = array();
 
     public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
     {
         if ($node instanceof Twig_Node_Module) {
-            // reset the state as we are entering a new template
+            // 新しいテンプレートに入るので状態をリセットします
             $this->someTemplateState = array();
         }
 
@@ -315,16 +273,13 @@ This can be easily achieved with the following code::
         return $node;
     }
 
-Using the Template name to set the default Escaping Strategy
-------------------------------------------------------------
+デフォルトのエスケーピングストラテジーをセットすることでテンプレートの名前を使う
+----------------------------------------------------------------------------------
 
 .. versionadded:: 1.8
-    This recipe requires Twig 1.8 or later.
+    このレシピは Twig 1.8 およびそれ以降を必要とします。
 
-The ``autoescape`` option determines the default escaping strategy to use when
-no escaping is applied on a variable. When Twig is used to mostly generate
-HTML files, you can set it to ``html`` and explicitly change it to ``js`` when
-you have some dynamic JavaScript files thanks to the ``autoescape`` tag:
+``autoescape`` オプションはエスケーピングが変数に適用されていない場合にデフォルトのエスケーピングストラテジーを決めます。Twig がおもに HTML ファイルを生成するために使われるとき、これに ``html`` をセットしておいて、``autoescape`` タグのおかげで動的な JavaScript がある場合に ``js`` に明示的に変更することができます。
 
 .. code-block:: jinja
 
@@ -332,15 +287,11 @@ you have some dynamic JavaScript files thanks to the ``autoescape`` tag:
         ... some JS ...
     {% endautoescape %}
 
-But if you have many HTML and JS files, and if your template names follow some
-conventions, you can instead determine the default escaping strategy to use
-based on the template name. Let's say that your template names always ends
-with ``.html`` for HTML files and ``.js`` for JavaScript ones, here is how you
-can configure Twig::
+しかし HTML と JS ファイルがたくさんある場合、そしてテンプレートの名前が何らかの慣習にしたがう場合、テンプレートの名前絵をもとに使うデフォルトエスケーピングストラテジーを決めることができます。テンプレートの名前は HTML ファイルの場合 ``.html`` で JavaScript の場合は ``.js`` で終わるとすると、Twig の設定方法は次のようになります。::
 
     function twig_escaping_guesser($filename)
     {
-        // get the format
+        // フォーマットの情報を得ます。
         $format = substr($filename, strrpos($filename, '.') + 1);
 
         switch ($format) {
@@ -356,7 +307,6 @@ can configure Twig::
         'autoescape' => 'twig_escaping_guesser',
     ));
 
-This dynamic strategy does not incur any overhead at runtime as auto-escaping
-is done at compilation time.
+オートエスケーピングはコンパイル時に行われるので、この動的なストラテジーは実行時にはオーバーヘッドはかかりません。
 
-.. _callback: http://www.php.net/manual/en/function.is-callable.php
+.. _`コールバック`: http://www.php.net/manual/function.is-callable.php
