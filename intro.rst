@@ -1,68 +1,59 @@
-Introduction
-============
+イントロダクション
+===================
 
-This is the documentation for Twig, the flexible, fast, and secure template
-engine for PHP.
+これは柔軟で、速く、セキュアな PHP 言語のテンプレートである Twig のドキュメントです。
 
-If you have any exposure to other text-based template languages, such as
-Smarty, Django, or Jinja, you should feel right at home with Twig. It's both
-designer and developer friendly by sticking to PHP's principles and adding
-functionality useful for templating environments.
+Smarty、Django もしくは Jinja などのほかのテキストベースのテンプレート言語に触れる機会があれば、Twig の扱いにすぐ慣れるでしょう。PHP の原則を忠実に守りテンプレート環境に役立つ機能性を追加することでこれはデザイナーと開発者の両方に親しみやすいものになっています。
 
-The key-features are...
+キーフィーチャは次のとおりです...
 
-* *Fast*: Twig compiles templates down to plain optimized PHP code. The
-  overhead compared to regular PHP code was reduced to the very minimum.
+ * *速い*: Twig はテンプレートをプレーンな最適化されたプレーンな PHP コードにコンパイルします。PHP コードと比べたオーバーヘッドは最小限に減りました。
 
-* *Secure*: Twig has a sandbox mode to evaluate untrusted template code. This
-  allows Twig to be used as a template language for applications where users
-  may modify the template design.
+ * *安全である*: Twig は信頼できないテンプレートコードを評価するサンドボックスモードを持ちます。このことによってユーザーがテンプレートデザインを修正することが許可されるアプリケーションのテンプレート言語で使えるようになっています。
 
-* *Flexible*: Twig is powered by a flexible lexer and parser. This allows the
-  developer to define its own custom tags and filters, and create its own DSL.
+ * *柔軟である*: Twig は柔軟なレクサーとパーサーによって支えられています。これによって開発者は独自のカスタムタグとフィルターを定義し、また独自の DSL を作ることができます。
 
-Prerequisites
--------------
+前提要件
+---------
 
-Twig needs at least **PHP 5.2.4** to run.
+Twig を実行するには少なくとも **PHP 5.2.4** が必要です。
 
-Installation
-------------
+インストール方法
+------------------
 
-You have multiple ways to install Twig. If you are unsure what to do, go with
-the tarball.
+Twig をインストールする方法は複数あります。何をやっているのかわからなければ、tarball のセクションをご覧ください。
 
-Installing from the tarball release
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tarball リリースからインストールする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Download the most recent tarball from the `download page`_
-2. Unpack the tarball
-3. Move the files somewhere in your project
+1. `ダウンロードページ`_ から最新の tarball をダウンロードします
+2. tarball を展開します
+3. ファイルをプロジェクトのどこかに移動させます
 
-Installing the development version
+開発バージョンをインストールする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install Subversion or Git
-2. For Git: ``git clone git://github.com/fabpot/Twig.git``
-3. For Subversion: ``svn co http://svn.twig-project.org/trunk/ twig``
+1. Subversion もしくは Git をインストールします。
+2. Git の場合: ``git clone git://github.com/fabpot/Twig.git``
+3. Subversion の場合: ``svn co http://svn.twig-project.org/trunk/ twig``
 
-Installing the PEAR package
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PEAR パッケージをインストールする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install PEAR
+1. PEAR をインストールします
 2. ``pear channel-discover pear.twig-project.org``
 3. ``pear install twig/Twig`` (or ``pear install twig/Twig-beta``)
 
-Installing via Composer
-~~~~~~~~~~~~~~~~~~~~~~~
+Composer 経由でインストールする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install composer in your project:
+1. Composer をプロジェクトにインストールします。
 
 .. code-block:: bash
 
     curl -s http://getcomposer.org/installer | php
 
-2. Create a ``composer.json`` file in your project root:
+2. プロジェクトのルートで ``composer.json`` ファイルを作ります。
 
 .. code-block:: javascript
 
@@ -72,20 +63,19 @@ Installing via Composer
         }
     }
 
-3. Install via composer
+3. composer 経由でインストールします。
 
 .. code-block:: bash
 
     php composer.phar install
 
-Installing the C extension
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+C エクステンションのインストール方法
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.4
-    The C extension was added in Twig 1.4.
+    C エクステンションは Twig 1.4 で追加されました。
 
-Twig comes with a C extension that enhances the performance of the Twig
-runtime engine. You can install it like any other PHP extension:
+Twig には C エクステンションが用意されており、Twig 実行エンジンのパフォーマンスを強化してくれます。ほかの PHP エクステンションのようにインストールできます。
 
 .. code-block:: bash
 
@@ -95,38 +85,35 @@ runtime engine. You can install it like any other PHP extension:
     $ make
     $ make install
 
-Finally, enable the extension in your ``php.ini`` configuration file:
+最後に、 ``php.ini`` 設定ファイルでエクステンションを有効にします。
 
 .. code-block:: ini
 
     extension=twig.so
 
-And from now on, Twig will automatically compile your templates to take
-advantage of the C extension. Note that this extension does not replace the
-PHP code but only provides an optimized version of the
-``Twig_Template::getAttribute()`` method.
+これで、Twig は C エクステンションを使うようにあなたのテンプレートを自動的にコンパイルしてくれます。特筆することは PHP のコードを置き換えませんが、
+``Twig_Template::getAttribute()`` メソッドの最適化されたバージョンだけを提供してくれます。
 
 .. tip::
 
-    On Windows, you can also simply download and install a `pre-build DLL`_.
+    Windowsにおいては、 `プレビルド DLL`_ をダウンロードしてインストールすることもできます。
 
-Basic API Usage
----------------
+API の基本的な使い方
+---------------------
 
-This section gives you a brief introduction to the PHP API for Twig.
+このセクションでは Twig の PHP API を手短に紹介します。
 
-The first step to use Twig is to register its autoloader::
+Twig を使う最初のステップはオートローダを登録することです。::
 
     require_once '/path/to/lib/Twig/Autoloader.php';
     Twig_Autoloader::register();
 
-Replace the ``/path/to/lib/`` path with the path you used for Twig
-installation.
+``/path/to/lib/`` パスを Twig がインストールされているパスに置き換えます。
 
 .. note::
 
-    Twig follows the PEAR convention names for its classes, which means you
-    can easily integrate Twig classes loading in your own autoloader.
+    Twig のクラス名は PEAR の慣習にしたがいます。
+    このことは Twig のクラスのロードを独自のオートローダに統合することがかんたんであることを意味します。
 
 .. code-block:: php
 
@@ -135,14 +122,11 @@ installation.
 
     echo $twig->render('Hello {{ name }}!', array('name' => 'Fabien'));
 
-Twig uses a loader (``Twig_Loader_String``) to locate templates, and an
-environment (``Twig_Environment``) to store the configuration.
+Twig はテンプレートを割り出すのにローダー (``Twig_Loader_String``) を使い、コンフィギュレーションを保存するのに環境 (``Twig_Environment``) を使います。
 
-The ``render()`` method loads the template passed as a first argument and
-renders it with the variables passed as a second argument.
+``render()`` メソッドは第1引数として渡されたテンプレートをロードし、第2引数として渡された変数でそれをレンダリングします。
 
-As templates are generally stored on the filesystem, Twig also comes with a
-filesystem loader::
+一般にテンプレートはファイルシステムに保存されるので、Twig にはファイルシステムのローダーが備わっています。::
 
     $loader = new Twig_Loader_Filesystem('/path/to/templates');
     $twig = new Twig_Environment($loader, array(
@@ -151,5 +135,5 @@ filesystem loader::
 
     echo $twig->render('index.html', array('name' => 'Fabien'));
 
-.. _`download page`: https://github.com/fabpot/Twig/tags
-.. _`pre-build DLL`: https://github.com/stealth35/stealth35.github.com/downloads
+.. _`ダウンロードページ`: https://github.com/fabpot/Twig/tags
+.. _`プレビルド DLL`: https://github.com/stealth35/stealth35.github.com/downloads
