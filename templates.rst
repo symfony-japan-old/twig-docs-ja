@@ -1,29 +1,29 @@
-Twig for Template Designers
-===========================
+テンプレートデザイナーのためのTwig
+==================================
 
-This document describes the syntax and semantics of the template engine and
-will be most useful as reference to those creating Twig templates.
+このドキュメントは、テンプレートエンジンの構文や語義について、説明したもので、
+Twigテンプレートを作成する方々のリファレンスとして、一番役に立つものになるのではないかと思います。
 
-Synopsis
+概要
 --------
 
-A template is simply a text file. It can generate any text-based format (HTML,
-XML, CSV, LaTeX, etc.). It doesn't have a specific extension, ``.html`` or
-``.xml`` are just fine.
+テンプレートは、単なるテキストファイルです。 テンプレートは、どんなテキストベースの形式 (HTML、
+XML, CSV, LaTeX, etc.)でも生成することができます。 また、特に決まった拡張子がないので、``.html`` や
+``.xml`` としても全く問題ありません。
 
-A template contains **variables** or **expressions**, which get replaced with
-values when the template is evaluated, and **tags**, which control the logic
-of the template.
+テンプレートには、 **変数** や **式** が記述されますが、これは、
+テンプレートが評価されるときに値に置き換えられるものになります。 また、テンプレートには、**タグ** も記述され、
+タグを使って、テンプレートのロジックをコントロールしていきます。
 
-Below is a minimal template that illustrates a few basics. We will cover the
-details later on:
+次の例は、最小構成のテンプレートで、基本的な事項がいくらか盛り込まれたものです。 詳しくは、
+追って説明します:
 
 .. code-block:: html+jinja
 
     <!DOCTYPE html>
     <html>
         <head>
-            <title>My Webpage</title>
+            <title>MYウェブページ</title>
         </head>
         <body>
             <ul id="navigation">
@@ -32,40 +32,40 @@ details later on:
             {% endfor %}
             </ul>
 
-            <h1>My Webpage</h1>
+            <h1>MYウェブページ</h1>
             {{ a_variable }}
         </body>
     </html>
 
-There are two kinds of delimiters: ``{% ... %}`` and ``{{ ... }}``. The first
-one is used to execute statements such as for-loops, the latter prints the
-result of an expression to the template.
+上のコードの中には、2種類の区切り記号: ``{% ... %}`` と ``{{ ... }}`` がありますが、前者の
+区切り記号は、for-ループなどの構文を実行するために使われるもので、後者の区切り記号は、
+テンプレートの中で、式の結果を表示するためのものになります。
 
-IDEs Integration
-----------------
-
-Many IDEs support syntax highlighting and auto-completion for Twig:
-
-* *Textmate* via the `Twig bundle`_
-* *Vim* via the `Jinja syntax plugin`_
-* *Netbeans* via the `Twig syntax plugin`_
-* *PhpStorm* (native as of 2.1)
-* *Eclipse* via the `Twig plugin`_
-* *Sublime Text* via the `Twig bundle`_
-* *GtkSourceView* via the `Twig language definition`_ (used by gedit and other projects)
-* *Coda* and *SubEthaEdit* via the `Twig syntax mode`_
-
-Variables
+IDEの統合
 ---------
 
-The application passes variables to the templates you can mess around in the
-template. Variables may have attributes or elements on them you can access
-too. How a variable looks like heavily depends on the application providing
-those.
+数多くのIDEでTwigのシンタックスハイライトと自動補完がサポートされています:
 
-You can use a dot (``.``) to access attributes of a variable (methods or
-properties of a PHP object, or items of a PHP array), or the so-called
-"subscript" syntax (``[]``):
+* *Textmate* は、`Twig bundle`_ でサポートされます
+* *Vim* は、`Jinja syntax plugin`_ でサポートされます
+* *Netbeans* は、`Twig syntax plugin`_ でサポートされます
+* *PhpStorm* (2.1から、ネイティブにサポート)
+* *Eclipse* は、 `Twig plugin`_ でサポートされます
+* *Sublime Text* は、 `Twig bundle`_ でサポートされます
+* *GtkSourceView* は、 `Twig language definition`_ でサポートされます (geditなどのプロジェクトで使用)
+* *Coda* と *SubEthaEdit* は、 `Twig syntax mode`_ でサポートされます
+
+変数
+--------
+
+アプリケーションで、テンプレートに変数を渡すことにより、テンプレートの中で、その変数を取り扱うことができます。
+変数は、自身の中に属性や要素を持つこともあり、これにもアクセスすることができます。
+変数がどう見えるかは、変数の提供元となるアプリケーションに大きく
+左右されます。
+
+変数の属性（PHPオブジェクトのメソッドやプロパティ、あるいは、PHPの配列の要素）にアクセスするには、
+ドット (``.``) を使うか、いわゆる
+"添え字" 構文 (``[]``) を使います:
 
 .. code-block:: jinja
 
@@ -74,51 +74,51 @@ properties of a PHP object, or items of a PHP array), or the so-called
 
 .. note::
 
-    It's important to know that the curly braces are *not* part of the
-    variable but the print statement. If you access variables inside tags
-    don't put the braces around.
+    波括弧が変数の一部 *ではなく* 、printステートメントである
+    ということは、重要です。タグの中で、変数にアクセスする場合は、
+    変数を括弧で囲まないでください。
 
-If a variable or attribute does not exist, you will get back a ``null`` value
-when the ``strict_variables`` option is set to ``false``, otherwise Twig will
-throw an error (see :ref:`environment options<environment_options>`).
+変数もしくは属性が存在しない場合についてですが、``strict_variables`` オプションが ``false`` にセットされている場合は、
+``null`` の値が返ります。 そうでない場合は、Twigによって
+エラーがスローされます (:ref:`環境オプション<environment_options>` をご覧ください)。
 
-.. sidebar:: Implementation
+.. sidebar:: 実装
 
-    For convenience sake ``foo.bar`` does the following things on the PHP
-    layer:
+    ``foo.bar`` とすると、利便性のために、PHPレイヤで次のことが
+    行われます:
 
-    * check if ``foo`` is an array and ``bar`` a valid element;
-    * if not, and if ``foo`` is an object, check that ``bar`` is a valid property;
-    * if not, and if ``foo`` is an object, check that ``bar`` is a valid method
-      (even if ``bar`` is the constructor - use ``__construct()`` instead);
-    * if not, and if ``foo`` is an object, check that ``getBar`` is a valid method;
-    * if not, and if ``foo`` is an object, check that ``isBar`` is a valid method;
-    * if not, return a ``null`` value.
+    * ``foo`` が配列で、``bar`` が有効な要素であるかチェックします;
+    * そうでない場合で、``foo`` がオブジェクトのとき、``bar`` が有効なプロパティであるかチェックします;
+    * そうでない場合で、``foo`` がオブジェクトのとき、``bar`` が有効なメソッドであるかチェックします;
+      (たとえ、``bar`` がコンストラクタであっても有効であると判断されます - コンストラクタには、``__construct()`` を代わりに使用してください);
+    * そうでない場合で、``foo`` がオブジェクトのとき、``getBar`` が有効なメソッドであるかチェックします;
+    * そうでない場合で、``foo`` がオブジェクトのとき、``isBar`` が有効なメソッドであるかチェックします;
+    * そうでない場合、``null`` の値を返します。
 
-    ``foo['bar']`` on the other hand only works with PHP arrays:
+    一方、``foo['bar']`` は、PHPの配列に対してのみ動作します:
 
-    * check if ``foo`` is an array and ``bar`` a valid element;
-    * if not, return a ``null`` value.
+    * ``foo`` が配列で、``bar`` が有効な要素であるかチェックします;
+    * そうでない場合、``null`` の値を返します。
 
 .. note::
 
-    If you want to get a dynamic attribute on a variable, use the
-    :doc:`attribute<functions/attribute>` function instead.
+    変数の動的属性を取得したい場合は、
+    :doc:`attribute<functions/attribute>` 関数を使用してください。
 
-Global Variables
-~~~~~~~~~~~~~~~~
+グローバル変数
+~~~~~~~~~~~~~~
 
-The following variables are always available in templates:
+次の変数は、テンプレートの中でいつでも利用することができます:
 
-* ``_self``: references the current template;
-* ``_context``: references the current context;
-* ``_charset``: references the current charset.
+* ``_self``: 現在のテンプレートを参照します;
+* ``_context``: 現在のコンテキストを参照します;
+* ``_charset``: 現在の文字セットを参照します。
 
-Setting Variables
-~~~~~~~~~~~~~~~~~
+変数への代入
+~~~~~~~~~~~~
 
-You can assign values to variables inside code blocks. Assignments use the
-:doc:`set<tags/set>` tag:
+コードブロックの中で、変数には、値を代入することができます。 代入するには、
+:doc:`set<tags/set>` タグを使用します:
 
 .. code-block:: jinja
 
@@ -126,48 +126,48 @@ You can assign values to variables inside code blocks. Assignments use the
     {% set foo = [1, 2] %}
     {% set foo = {'foo': 'bar'} %}
 
-Filters
--------
+フィルタ
+----------
 
-Variables can be modified by **filters**. Filters are separated from the
-variable by a pipe symbol (``|``) and may have optional arguments in
-parentheses. Multiple filters can be chained. The output of one filter is
-applied to the next.
+変数は、**フィルタ** で値を修正することができます。 フィルタは、パイプ記号 (``|``) で
+変数と分けられ、場合によっては、丸括弧使って追加の引数が指定されます。
+フィルタを複数連続して呼び出すこともでき、このとき、あるフィルタの出力は、
+次のフィルタに適用されます。
 
-The following example removes all HTML tags from the ``name`` and title-cases
-it:
+次の例では、``name`` から、すべてのHTMLタグが除去され、タイトルケース（先頭文字が大文字で残りが小文字）
+に変換されます:
 
 .. code-block:: jinja
 
     {{ name|striptags|title }}
 
-Filters that accept arguments have parentheses around the arguments. This
-example will join a list by commas:
+フィルタは、引数を丸括弧で囲んで受け取ることができます。
+この例では、listをカンマで連結しています:
 
 .. code-block:: jinja
 
     {{ list|join(', ') }}
 
-To apply a filter on a section of code, wrap it with the
-:doc:`filter<tags/filter>` tag:
+コードの領域にフィルタを適用するには、その領域を
+:doc:`filter<tags/filter>` タグで囲みます:
 
 .. code-block:: jinja
 
     {% filter upper %}
-      This text becomes uppercase
+      このテキストは、全部大文字になります
     {% endfilter %}
 
-Go to the :doc:`filters<filters/index>` page to learn more about the built-in
-filters.
+組み込みのフィルタについて、さらに詳しく知るには、:doc:`フィルタ<filters/index>` のページを
+ご覧ください。
 
-Functions
----------
+関数
+--------
 
-Functions can be called to generate content. Functions are called by their
-name followed by parentheses (``()``) and may have arguments.
+関数は、内容を生成するために、呼び出すことができます。関数は、
+小括弧 (``()``) が後に続く名前で呼び出され、引数をとることもあります。
 
-For instance, the ``range`` function returns a list containing an arithmetic
-progression of integers:
+例えば、``range`` 関数は、整数の等差数列で構成される
+リストを返します:
 
 .. code-block:: jinja
 
@@ -175,19 +175,19 @@ progression of integers:
         {{ i }},
     {% endfor %}
 
-Go to the :doc:`functions<functions/index>` page to learn more about the
-built-in functions.
+組み込みの関数について、さらに詳しく知るには、:doc:`関数<functions/index>` のページを
+ご覧ください。
 
-Control Structure
------------------
+制御構文
+--------
 
-A control structure refers to all those things that control the flow of a
-program - conditionals (i.e. ``if``/``elseif``/``else``), ``for``-loops, as
-well as things like blocks. Control structures appear inside ``{% ... %}``
-blocks.
+制御構文は、プログラムのフローを制御する、あらゆるものを
+表すものです - 条件 (i.e. ``if``/``elseif``/``else``), ``for``-ループ, ブロック
+のようなものも含まれます。 制御構文は、``{% ... %}`` の中に
+記述されます。
 
-For example, to display a list of users provided in a variable called
-``users``, use the :doc:`for<tags/for>` tag:
+例えば、``users`` という変数により与えられたユーザーのリストを
+表示するには、:doc:`for<tags/for>` タグを使用します:
 
 .. code-block:: jinja
 
@@ -198,7 +198,7 @@ For example, to display a list of users provided in a variable called
         {% endfor %}
     </ul>
 
-The :doc:`if<tags/if>` tag can be used to test an expression:
+:doc:`if<tags/if>` タグは、式を検査するのに使用することができます:
 
 .. code-block:: jinja
 
@@ -210,37 +210,37 @@ The :doc:`if<tags/if>` tag can be used to test an expression:
         </ul>
     {% endif %}
 
-Go to the :doc:`tags<tags/index>` page to learn more about the built-in tags.
+組み込みのタグについて、さらに詳しく知るには、:doc:`タグ<tags/index>` のページをご覧ください。
 
-Comments
+コメント
 --------
 
-To comment-out part of a line in a template, use the comment syntax ``{# ...
-#}``. This is useful for debugging or to add information for other template
-designers or yourself:
+テンプレートの一部の行をコメントアウトするには、コメント構文 ``{# ...#}`` 
+を使います。これは、デバッグのために役立ち、他のテンプレートデザイナー、あるいは自分自身のために情報を追加する
+ためにも使えるものです:
 
 .. code-block:: jinja
 
-    {# note: disabled template because we no longer use this
+    {# note: これはもう使っていないので、テンプレートを無効化しています
         {% for user in users %}
             ...
         {% endfor %}
     #}
 
-Including other Templates
--------------------------
+他のテンプレートのインクルード
+------------------------------
 
-The :doc:`include<tags/include>` tag is useful to include a template and
-return the rendered content of that template into the current one:
+:doc:`include<tags/include>` タグは、テンプレートをインクルードし、
+そのテンプレートのレンダリング結果の内容を現在のテンプレートの中で返すために使えます:
 
 .. code-block:: jinja
 
     {% include 'sidebar.html' %}
 
-Per default included templates are passed the current context.
+デフォルトでは、インクルードされたテンプレートには、現在のコンテキストが渡されます。
 
-The context that is passed to the included template includes variables defined
-in the template:
+インクルードされたテンプレートに渡されるコンテキストには、親のテンプレートで定義された
+変数が入っています:
 
 .. code-block:: jinja
 
@@ -248,31 +248,31 @@ in the template:
         {% include "render_box.html" %}
     {% endfor %}
 
-The included template ``render_box.html`` is able to access ``box``.
+このインクルードされたテンプレート ``render_box.html`` では、``box`` にアクセスすることができるというわけです。
 
-The filename of the template depends on the template loader. For instance, the
-``Twig_Loader_Filesystem`` allows you to access other templates by giving the
-filename. You can access templates in subdirectories with a slash:
+上のテンプレートのファイル名のところは、テンプレートのローダーによって変わります。 例えば、
+``Twig_Loader_Filesystem`` では、ファイル名を指定すれば、別のテンプレートにアクセスする
+ことができます。 サブディレクトリのテンプレートには、スラッシュを使ってアクセスできます:
 
 .. code-block:: jinja
 
     {% include "sections/articles/sidebar.html" %}
 
-This behavior depends on the application embedding Twig.
+この振る舞いは、Twigを組み込んでいるアプリケーションによって変わります。
 
-Template Inheritance
---------------------
+テンプレートの継承
+------------------
 
-The most powerful part of Twig is template inheritance. Template inheritance
-allows you to build a base "skeleton" template that contains all the common
-elements of your site and defines **blocks** that child templates can
-override.
+Twig の最も強力なところといえば、テンプレート継承です。 テンプレート継承を使えば、
+基本になる "骨組みの" テンプレートを構築でき、このテンプレートに、サイトの共通要素を
+すべて入れて、子テンプレートでオーバーライドできる **ブロック** を定義
+しておくことができます。
 
-Sounds complicated but is very basic. It's easiest to understand it by
-starting with an example.
+難しく聞こえるかもしれませんが、非常に簡単です。 一つの例から始めるのが、
+これを理解する一番の近道です。
 
-Let's define a base template, ``base.html``, which defines a simple HTML
-skeleton document that you might use for a simple two-column page:
+基本になるテンプレート ``base.html`` を定義してみましょう。 このテンプレートでは、単純な2カラム構成のページとして使えるもので、
+簡単なHTMLの骨組みのドキュメントが定義されています:
 
 .. code-block:: html+jinja
 
@@ -281,7 +281,7 @@ skeleton document that you might use for a simple two-column page:
         <head>
             {% block head %}
                 <link rel="stylesheet" href="style.css" />
-                <title>{% block title %}{% endblock %} - My Webpage</title>
+                <title>{% block title %}{% endblock %} - MYウェブページ</title>
             {% endblock %}
         </head>
         <body>
@@ -294,12 +294,12 @@ skeleton document that you might use for a simple two-column page:
         </body>
     </html>
 
-In this example, the :doc:`block<tags/block>` tags define four blocks that
-child templates can fill in. All the ``block`` tag does is to tell the
-template engine that a child template may override those portions of the
-template.
+この例では、:doc:`block<tags/block>` タグで、4つのブロックが定義されていますが、
+このブロックの内容は、子テンプレートで埋めることができます。 ``block`` タグが行うことのすべては、
+テンプレートエンジンに、子テンプレートが、各部分をオーバーライドできるのだということを
+教えるだけなのです。
 
-A child template might look like this:
+子テンプレートは、大体このようになっています:
 
 .. code-block:: jinja
 
@@ -315,110 +315,110 @@ A child template might look like this:
     {% block content %}
         <h1>Index</h1>
         <p class="important">
-            Welcome on my awesome homepage.
+            素晴らしいホームページへようこそ。
         </p>
     {% endblock %}
 
-The :doc:`extends<tags/extends>` tag is the key here. It tells the template
-engine that this template "extends" another template. When the template system
-evaluates this template, first it locates the parent. The extends tag should
-be the first tag in the template.
+:doc:`extends<tags/extends>` タグがここでのキーです。 extendsタグは、テンプレートエンジンに、
+このテンプレートは、別のテンプレートを"extends (継承/拡張)" しているのだと伝えるものです。テンプレートシステムが、
+このテンプレートを評価するときには、まず、親の場所を特定します。 extendsタグは、
+テンプレートの最初のタグでなければならないというわけです。
 
-Note that since the child template doesn't define the ``footer`` block, the
-value from the parent template is used instead.
+ここでは、子テンプレートで、``footer`` ブロックを定義していないので、
+親テンプレートの値が代わりに使用されているのにご注意ください。
 
-It's possible to render the contents of the parent block by using the
-:doc:`parent<functions/parent>` function. This gives back the results of the
-parent block:
+:doc:`parent<functions/parent>` 関数を使えば、親ブロックの内容を
+レンダリングすることもできます。 この関数により、親ブロックの処理結果が
+返されます:
 
 .. code-block:: jinja
 
     {% block sidebar %}
-        <h3>Table Of Contents</h3>
+        <h3>目次</h3>
         ...
         {{ parent() }}
     {% endblock %}
 
 .. tip::
 
-    The documentation page for the :doc:`extends<tags/extends>` tag describes
-    more advanced features like block nesting, scope, dynamic inheritance, and
-    conditional inheritance.
+    :doc:`extends<tags/extends>` タグのドキュメントのページでは、さらに高度な
+    機能が解説されています。 例えば、ブロックのネスト、スコープ、動的継承、それから
+    条件付き継承などといったものが解説されています。
 
 .. note::
 
-    Twig also supports multiple inheritance with the so called horizontal reuse
-    with the help of the :doc:`use<tags/use>` tag. This is an advanced feature
-    hardly ever needed in regular templates.
+    Twigでは、いわゆる、水平方向の再利用（horizontal reuse）により、多重継承もサポートされています。
+    :doc:`use<tags/use>` タグにより、これが利用可能です。この機能は、高度な機能で、
+    通常のテンプレートで必要とされることはほとんどありません。
 
-HTML Escaping
--------------
+HTML エスケープ
+---------------
 
-When generating HTML from templates, there's always a risk that a variable
-will include characters that affect the resulting HTML. There are two
-approaches: manually escaping each variable or automatically escaping
-everything by default.
+テンプレートからHTMLを生成する際には、変数に含まれる文字が、
+結果のHTMLに影響を与えるリスクが常にあります。 これに対しては、
+2つのアプローチがあります: 変数をそれぞれ手動でエスケープする方法、
+あるいは、デフォルトですべて自動でエスケープする方法です。
 
-Twig supports both, automatic escaping is enabled by default.
+Twigでは、両方とも利用でき、デフォルトでは、自動エスケープが有効になっています。
 
 .. note::
 
-    Automatic escaping is only supported if the *escaper* extension has been
-    enabled (which is the default).
+    自動エスケープは *escaper* エクステンションが有効になっている
+    (デフォルトでは有効になっています) 場合にのみ利用可能です。
 
-Working with Manual Escaping
+手動でのエスケープを利用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If manual escaping is enabled it's **your** responsibility to escape variables
-if needed. What to escape? If you have a variable that *may* include any of
-the following chars (``>``, ``<``, ``&``, or ``"``) you **have to** escape it
-unless the variable contains well-formed and trusted HTML. Escaping works by
-piping the variable through the :doc:`escape<filters/escape>` or ``e`` filter:
+手動でのエスケープが有効な場合、必要に応じて、変数をエスケープするのは、*あなたの*
+責任になります。 何をエスケープすればよいのでしょうか？ もし変数に、文字列 (``>``, ``<``, ``&``, または ``"``) 
+を含む *可能性がある* 場合、変数の内容が、的確に整形され、信頼できるものでない限り、
+それをエスケープしなければなりません。 エスケープは、:doc:`escape<filters/escape>` または ``e`` フィルタを通じて、
+パイプされて処理されます:
 
 .. code-block:: jinja
 
     {{ user.username|e }}
     {{ user.username|e('js') }}
 
-Working with Automatic Escaping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+自動でのエスケープを利用する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Whether automatic escaping is enabled or not, you can mark a section of a
-template to be escaped or not by using the :doc:`autoescape<tags/autoescape>`
-tag:
+自動エスケープが有効になっているか否かにかかわらず、テンプレートの領域を
+:doc:`autoescape<tags/autoescape>` タグを使ってマークし、エスケープすべきか否かを
+指定します:
 
 .. code-block:: jinja
 
     {% autoescape true %}
-        Everything will be automatically escaped in this block
+        このブロックの中は何でも自動でエスケープされます
     {% endautoescape %}
 
-Escaping
---------
+エスケープ
+----------
 
-It is sometimes desirable or even necessary to have Twig ignore parts it would
-otherwise handle as variables or blocks. For example if the default syntax is
-used and you want to use ``{{`` as raw string in the template and not start a
-variable you have to use a trick.
+Twigで、ある部分を変数やブロックとして取り扱いつつも、その部分をTwigで無視することが望ましいか、
+あるいは無視することが必要になる場面も時々あります。 たとえば、デフォルトの構文が使用されている場合で、
+``{{`` をテンプレートの中で生の文字列として使用したい場合、これが変数の開始記号とならないように、
+ちょっとしたトリックを使う必要があります。
 
-The easiest way is to output the variable delimiter (``{{``) by using a variable
-expression:
+一番簡単な方法は、変数の式を用いて、変数区切り文字 (``{{``) を
+出力するというものです:
 
 .. code-block:: jinja
 
     {{ '{{' }}
 
-For bigger sections it makes sense to mark a block :doc:`raw<tags/raw>`.
+もっと大きな領域に対しては、 :doc:`raw<tags/raw>` で、ブロックをマークする方がよいでしょう。
 
-Macros
-------
+マクロ
+--------
 
-Macros are comparable with functions in regular programming languages. They
-are useful to put often used HTML idioms into reusable elements to not repeat
-yourself.
+マクロは、通常のプログラム言語の関数と比較対比されるものです。 マクロは、
+頻繁に使われるHTMLのイディオムを再利用可能な要素として配置するために使うことができ、これにより、
+繰り返しの記述を避けることができます。
 
-A macro is defined via the :doc:`macro<tags/macro>` tag. Here is a small
-example of a macro that renders a form element:
+マクロは、:doc:`macro<tags/macro>` タグを使って定義します。 次は、マクロの簡単な例で、
+form 要素をレンダリングする例になります:
 
 .. code-block:: jinja
 
@@ -426,8 +426,8 @@ example of a macro that renders a form element:
         <input type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|e }}" size="{{ size|default(20) }}" />
     {% endmacro %}
 
-Macros can be defined in any template, and need to be "imported" before being
-used via the :doc:`import<tags/import>` tag:
+マクロは、どんなテンプレートの中でも定義でき、使う前には、:doc:`import<tags/import>` タグで、
+これを "インポート"する必要があります:
 
 .. code-block:: jinja
 
@@ -435,145 +435,145 @@ used via the :doc:`import<tags/import>` tag:
 
     <p>{{ forms.input('username') }}</p>
 
-Alternatively you can import names from the template into the current
-namespace via the :doc:`from<tags/from>` tag:
+別のやり方もあり、:doc:`from<tags/from>` タグを使って、現在の名前空間に、
+テンプレートから名前をインポートすることもできます:
 
 .. code-block:: jinja
 
     {% from 'forms.html' import input as input_field, textarea %}
 
     <dl>
-        <dt>Username</dt>
+        <dt>ユーザ名</dt>
         <dd>{{ input_field('username') }}</dd>
-        <dt>Password</dt>
+        <dt>パスワード</dt>
         <dd>{{ input_field('password', type='password') }}</dd>
     </dl>
     <p>{{ textarea('comment') }}</p>
 
-Expressions
------------
+式
+--------
 
-Twig allows expressions everywhere. These work very similar to regular PHP and
-even if you're not working with PHP you should feel comfortable with it.
+Twigでは、どこでも式を使えます。 式は、通常のPHPと非常に似通った動作になっており、
+PHPを使っていないくても、簡単に感じるに違いありません。
 
 .. note::
 
-    The operator precedence is as follows, with the lowest-precedence
-    operators listed first: ``b-and``, ``b-xor``, ``b-or``, ``or``, ``and``,
+    演算子の優先順位は次の通りで、優先順位が低い演算子が最初の方に
+    リストアップされています: ``b-and``, ``b-xor``, ``b-or``, ``or``, ``and``,
     ``==``, ``!=``, ``<``, ``>``, ``>=``, ``<=``, ``in``, ``..``, ``+``,
-    ``-``, ``~``, ``*``, ``/``, ``//``, ``%``, ``is``, and ``**``.
+    ``-``, ``~``, ``*``, ``/``, ``//``, ``%``, ``is``, ``**``.
 
-Literals
+リテラル
 ~~~~~~~~
 
 .. versionadded:: 1.5
-    Support for hash keys as names and expressions was added in Twig 1.5.
+    Twig 1.5で、ハッシュのキーをキー名とすることができるようになり、そのための式が追加されました。
 
-The simplest form of expressions are literals. Literals are representations
-for PHP types such as strings, numbers, and arrays. The following literals
-exist:
+式のもっとも単純な形は、リテラルです。 リテラルとは、
+文字列, 数値, そして 配列といったPHPの型を表すものです。 次のリテラル
+があります:
 
-* ``"Hello World"``: Everything between two double or single quotes is a
-  string. They are useful whenever you need a string in the template (for
-  example as arguments to function calls, filters or just to extend or
-  include a template).
+* ``"Hello World"``: ダブルクォーテーションまたは、シングルクォーテーションに囲まれたものは、
+  いずれも文字列です。これは、テンプレートで文字列が必要となった時に (たとえば、
+  関数呼び出し、フィルタの引数として、あるいは、テンプレートの拡張やインクルードの
+  引数としてなどに)、いつでも使えます。
 
-* ``42`` / ``42.23``: Integers and floating point numbers are created by just
-  writing the number down. If a dot is present the number is a float,
-  otherwise an integer.
+* ``42`` / ``42.23``: 整数と浮動小数点は、単に
+  数字をそこに記述するだけです。 小数点が一つある場合は、浮動小数点に、
+  ひとつもなければ、整数になります。
 
-* ``["foo", "bar"]``: Arrays are defined by a sequence of expressions
-  separated by a comma (``,``) and wrapped with squared brackets (``[]``).
+* ``["foo", "bar"]``: 配列は、カンマ(``,``)区切りの連続した式として定義し、
+  角括弧で囲みます。
 
-* ``{"foo": "bar"}``: Hashes are defined by a list of keys and values
-  separated by a comma (``,``) and wrapped with curly braces (``{}``):
+* ``{"foo": "bar"}``: ハッシュは、カンマ(``,``)区切りで、キーと値のリストとして
+  定義し、波括弧で囲みます:
 
   .. code-block:: jinja
 
-    {# keys as string #}
+    {# キーを文字列として #}
     { 'foo': 'foo', 'bar': 'bar' }
 
-    {# keys as names (equivalent to the previous hash) -- as of Twig 1.5 #}
+    {# キーをキー名として (上のハッシュと同じもの) -- Twig 1.5 より #}
     { foo: 'foo', bar: 'bar' }
 
-    {# keys as integer #}
+    {# キーを整数として #}
     { 2: 'foo', 4: 'bar' }
 
-    {# keys as expressions (the expression must be enclosed into parentheses) -- as of Twig 1.5 #}
+    {# キーを式として (式は、丸括弧の中に入れる必要があります) -- Twig 1.5 より #}
     { (1 + 1): 'foo', (a ~ 'b'): 'bar' }
 
-* ``true`` / ``false``: ``true`` represents the true value, ``false``
-  represents the false value.
+* ``true`` / ``false``: ``true`` は、真の値を表し、 ``false``
+  は、偽の値を表します。
 
-* ``null``: ``null`` represents no specific value. This is the value returned
-  when a variable does not exist. ``none`` is an alias for ``null``.
+* ``null``: ``null`` は、特定の値を表しません。この値は、
+  変数が存在しない場合に返されます。 ``none`` は、 ``null`` の別名です。
 
-Arrays and hashes can be nested:
+配列とハッシュは、ネストすることができます:
 
 .. code-block:: jinja
 
     {% set foo = [1, {"foo": "bar"}] %}
 
-Math
-~~~~
+数値演算
+~~~~~~~~
 
-Twig allows you to calculate with values. This is rarely useful in templates
-but exists for completeness' sake. The following operators are supported:
+Twigでは値の計算が可能です。 テンプレートでは、めったに役に立たないかもしれませんが、
+機能を網羅するために用意されています。 次の演算子がサポートされています:
 
-* ``+``: Adds two objects together (the operands are casted to numbers). ``{{
-  1 + 1 }}`` is ``2``.
+* ``+``: 2つの対象を加算します (演算対象は、数字にキャストされます)。 ``{{
+  1 + 1 }}`` は ``2`` 。
 
-* ``-``: Substracts the second number from the first one. ``{{ 3 - 2 }}`` is
-  ``1``.
+* ``-``: 最初の数から、2番目の数を減算します。 ``{{ 3 - 2 }}`` は
+  ``1`` 。
 
-* ``/``: Divides two numbers. The return value will be a floating point
-  number. ``{{ 1 / 2 }}`` is ``{{ 0.5 }}``.
+* ``/``: 2つの数字を除算します。 戻り値は、浮動小数点の
+  数値になります。 ``{{ 1 / 2 }}`` は ``{{ 0.5 }}`` 。
 
-* ``%``: Calculates the remainder of an integer division. ``{{ 11 % 7 }}`` is
-  ``4``.
+* ``%``: 整数で除算した余りを計算します。 ``{{ 11 % 7 }}`` は
+  ``4`` 。
 
-* ``//``: Divides two numbers and returns the truncated integer result. ``{{
-  20 // 7 }}`` is ``2``.
+* ``//``: 2つの数字を除算し、結果を切り捨てて整数にして返します。 ``{{
+  20 // 7 }}`` は ``2`` 。
 
-* ``*``: Multiplies the left operand with the right one. ``{{ 2 * 2 }}`` would
-  return ``4``.
+* ``*``: 左の演算対象を右の演算対象で、乗算します。 ``{{ 2 * 2 }}`` は、
+  ``4`` を返します。
 
-* ``**``: Raises the left operand to the power of the right operand. ``{{ 2 **
-  3 }}`` would return ``8``.
+* ``**``: 左の演算対象を右の演算対象で、累乗します。 ``{{ 2 **
+  3 }}`` は、 ``8`` を返します。
 
-Logic
-~~~~~
+論理演算
+~~~~~~~~
 
-You can combine multiple expressions with the following operators:
+複数の式を次の演算子で繋げることができます:
 
-* ``and``: Returns true if the left and the right operands are both true.
+* ``and``: 左右の値が、どちらもtrueの場合に、trueを返します。
 
-* ``or``: Returns true if the left or the right operand is true.
+* ``or``: 左右の値が、どちらか一方、trueの場合に、trueを返します。
 
-* ``not``: Negates a statement.
+* ``not``: ステートメントを否定します。
 
-* ``(expr)``: Groups an expression.
+* ``(expr)``: 式をグループ化します。
 
 .. note::
 
-    Twig also support bitwise operators (``b-and``, ``b-xor``, and ``b-or``).
+    Twig では、ビット演算子 (``b-and``, ``b-xor``, ``b-or``) もサポートされています。
 
-Comparisons
-~~~~~~~~~~~
+比較演算
+~~~~~~~~
 
-The following comparison operators are supported in any expression: ``==``,
-``!=``, ``<``, ``>``, ``>=``, and ``<=``.
+次の比較演算子が、あらゆる式でサポートされています: ``==``,
+``!=``, ``<``, ``>``, ``>=``, ``<=``.
 
-Containment Operator
-~~~~~~~~~~~~~~~~~~~~
+包含演算子
+~~~~~~~~~~
 
-The ``in`` operator performs containment test.
+``in`` 演算子は、含まれるかどうかを検査します。
 
-It returns ``true`` if the left operand is contained in the right:
+左が、右の中に含まれる場合は、 ``true`` を返します:
 
 .. code-block:: jinja
 
-    {# returns true #}
+    {# true を返す #}
 
     {{ 1 in [1, 2, 3] }}
 
@@ -581,94 +581,94 @@ It returns ``true`` if the left operand is contained in the right:
 
 .. tip::
 
-    You can use this filter to perform a containment test on strings, arrays,
-    or objects implementing the ``Traversable`` interface.
+    このフィルタを使えば、文字列、配列、
+    あるいは ``Traversable`` インターフェースを実装したオブジェクトの中に、値が含まれるかどうか検査することができます。
 
-To perform a negative test, use the ``not in`` operator:
+``not in`` 演算子を使って、否定のテストができます:
 
 .. code-block:: jinja
 
     {% if 1 not in [1, 2, 3] %}
 
-    {# is equivalent to #}
+    {# 下記と同じ #}
     {% if not (1 in [1, 2, 3]) %}
 
-Test Operator
-~~~~~~~~~~~~~
+テスト演算子
+~~~~~~~~~~~~
 
-The ``is`` operator performs tests. Tests can be used to test a variable against
-a common expression. The right operand is name of the test:
+``is`` 演算子は、テストを行います。 テストは、変数に対して、
+一般の式が当てはまるかテストするために使われます。 右がテストの名前になります:
 
 .. code-block:: jinja
 
-    {# find out if a variable is odd #}
+    {# 変数が奇数がどうかを調べます #}
 
     {{ name is odd }}
 
-Tests can accept arguments too:
+テストは、引数を取ることもできます:
 
 .. code-block:: jinja
 
     {% if loop.index is divisibleby(3) %}
 
-Tests can be negated by using the ``is not`` operator:
+``is not`` 演算子を使って、否定のテストができます:
 
 .. code-block:: jinja
 
     {% if loop.index is not divisibleby(3) %}
 
-    {# is equivalent to #}
+    {# 下記と同じ #}
     {% if not (loop.index is divisibleby(3)) %}
 
-Go to the :doc:`tests<tests/index>` page to learn more about the built-in
-tests.
+組込みのテストについて、さらに詳しく知るには、 :doc:`tests<tests/index>` ページを
+ご覧ください。
 
-Other Operators
-~~~~~~~~~~~~~~~
+その他の演算子
+~~~~~~~~~~~~~~
 
-The following operators are very useful but don't fit into any of the other
-categories:
+次の演算子は、非常に有用ですが、他のどのカテゴリにも
+属さないものです:
 
-* ``..``: Creates a sequence based on the operand before and after the
-  operator (this is just syntactic sugar for the :doc:`range<functions/range>`
-  function).
+* ``..``: 演算子の前後の値に基づいて、連続した値を生成します
+   (これは、 :doc:`range<functions/range>` 関数のシンタックスシュガーになります)。
 
-* ``|``: Applies a filter.
 
-* ``~``: Converts all operands into strings and concatenates them. ``{{ "Hello
-  " ~ name ~ "!" }}`` would return (assuming ``name`` is ``'John'``) ``Hello
-  John!``.
+* ``|``: フィルタを適用します。
 
-* ``.``, ``[]``: Gets an attribute of an object.
+* ``~``: 値をすべて文字列に変換して連結します。 ``{{ "Hello
+  " ~ name ~ "!" }}`` は、 ( ``name`` が ``'John'`` だとすると、) ``Hello
+  John!`` を返します。
 
-* ``?:``: The PHP ternary operator: ``{{ foo ? 'yes' : 'no' }}``
+* ``.``, ``[]``: オブジェクトの属性を取得します。
 
-String Interpolation
-~~~~~~~~~~~~~~~~~~~~
+* ``?:``: PHPの3項演算子: ``{{ foo ? 'yes' : 'no' }}``
+
+文字列への埋め込み演算
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.5
-    String interpolation was added in Twig 1.5.
+    文字列への埋め込み演算は、Twig 1.5 で追加されました。
 
-String interpolation (`#{expression}`) allows any valid expression to appear
-within a string. The result of evaluating that expression is inserted into the
-string:
+文字列への埋め込み演算 (`#{expression}`) を使えば、有効な式であれば、どんなものでも、文字列の中で使用することが
+できます。 式の評価の結果が、文字列の中に差し込まれ
+ます:
 
 .. code-block:: jinja
 
     {{ "foo #{bar} baz" }}
     {{ "foo #{1 + 2} baz" }}
 
-Whitespace Control
-------------------
+空白文字のコントロール
+----------------------
 
 .. versionadded:: 1.1
-    Tag level whitespace control was added in Twig 1.1.
+    タグレベルでの空白文字のコントロールは、Twig 1.1 で追加されました。
 
-The first newline after a template tag is removed automatically (like in PHP.)
-Whitespace is not further modified by the template engine, so each whitespace
-(spaces, tabs, newlines etc.) is returned unchanged.
+テンプレートタグの最初の改行は、（PHPのように）自動で除去されます。
+空白文字は、それ以上は、テンプレートエンジンで変更されることはありません。ですから、各空白文字
+(スペース、タブ、改行など) は、変更されずに返されます。
 
-Use the ``spaceless`` tag to remove whitespace *between HTML tags*:
+``spaceless`` タグを使うと、 *HTML タグの間の* 空白文字が除去されます:
 
 .. code-block:: jinja
 
@@ -678,49 +678,48 @@ Use the ``spaceless`` tag to remove whitespace *between HTML tags*:
         </div>
     {% endspaceless %}
 
-    {# output will be <div><strong>foo</strong></div> #}
+    {# 出力は、<div><strong>foo</strong></div> となります #}
 
-In addition to the spaceless tag you can also control whitespace on a per tag
-level. By using the whitespace control modifier on your tags, you can trim
-leading and or trailing whitespace:
+spaceless タグの他に、タグひとつひとつのレベルで、空白文字をコントロール
+することもできます。 タグで、空白文字コントロール修飾を使えば、
+前後の空白文字をトリミングできます:
 
 .. code-block:: jinja
 
     {% set value = 'no spaces' %}
-    {#- No leading/trailing whitespace -#}
+    {#- 前後の空白文字を取ります -#}
     {%- if true -%}
         {{- value -}}
     {%- endif -%}
 
-    {# output 'no spaces' #}
+    {# 'no spaces' が出力されます #}
 
-The above sample shows the default whitespace control modifier, and how you can
-use it to remove whitespace around tags.  Trimming space will consume all whitespace
-for that side of the tag.  It is possible to use whitespace trimming on one side
-of a tag:
+上の例では、デフォルトの、空白文字コントロール修飾が使われており、どうやって、
+タグの周りの空白文字を除去するかが示されています。 スペースのトリミングは、
+タグのサイドにある空白文字を全部除去します。 タグの一方のサイドだけ空白文字をトリミングすることも
+できます:
 
 .. code-block:: jinja
 
     {% set value = 'no spaces' %}
     <li>    {{- value }}    </li>
 
-    {# outputs '<li>no spaces    </li>' #}
+    {# '<li>no spaces    </li>' と出力 #}
 
-Extensions
-----------
+エクステンション
+----------------
 
-Twig can be easily extended.
+Twigは、簡単に拡張可能です。
 
-If you are looking for new tags, filters, or functions, have a look at the Twig official
-`extension repository`_.
+新しいタグ、フィルタ、関数などをお探しでしたら、Twig 公式の `エクステンション・リポジトリ`_ をご覧ください。
 
-If you want to create your own, read the :ref:`Creating an
-Extension<creating_extensions>` chapter.
+独自のエクステンションを作成したい場合は、 :ref:`エクステンションの
+作成<creating_extensions>` の章をお読みください。
 
 .. _`Twig bundle`:              https://github.com/Anomareh/PHP-Twig.tmbundle
 .. _`Jinja syntax plugin`:      http://jinja.pocoo.org/2/documentation/integration
 .. _`Twig syntax plugin`:       http://plugins.netbeans.org/plugin/37069/php-twig
 .. _`Twig plugin`:              https://github.com/pulse00/Twig-Eclipse-Plugin
 .. _`Twig language definition`: https://github.com/gabrielcorpse/gedit-twig-template-language
-.. _`extension repository`:     http://github.com/fabpot/Twig-extensions
+.. _`エクステンション・リポジトリ`:     http://github.com/fabpot/Twig-extensions
 .. _`Twig syntax mode`:         https://github.com/bobthecow/Twig-HTML.mode
