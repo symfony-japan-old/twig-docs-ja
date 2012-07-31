@@ -1,11 +1,11 @@
 ``block``
 =========
 
-Blocks are used for inheritance and act as placeholders and replacements at
-the same time. They are documented in detail in the documentation for the
-:doc:`extends<../tags/extends>` tag.
+ブロックは、継承で使用するもので、プレースホルダーであると同時に、置き換え内容
+を表すものでもあります。 これについては、:doc:`extends<../tags/extends>` タグの
+ドキュメントで、詳しく説明されています。
 
-Block names should consist of alphanumeric characters, and underscores. Dashes
-are not permitted.
+ブロックの名前は、英数文字とアンダースコアから構成される必要があります。ダッシュ
+は許可されていません。
 
 .. seealso:: :doc:`block<../functions/block>`, :doc:`parent<../functions/parent>`, :doc:`use<../tags/use>`, :doc:`extends<../tags/extends>`
