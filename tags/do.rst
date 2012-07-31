@@ -2,10 +2,10 @@
 ======
 
 .. versionadded:: 1.5
-    The do tag was added in Twig 1.5.
+    do タグは、Twig 1.5 で追加されました。
 
-The ``do`` tag works exactly like the regular variable expression (``{{ ...
-}}``) just that it doesn't print anything:
+``do`` タグは、通常の変数式 (``{{ ... }}``) 
+とまったく同様に動作するものですが、何も出力しません:
 
 .. code-block:: jinja
 
