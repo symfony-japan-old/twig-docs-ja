@@ -2,22 +2,22 @@
 =========
 
 .. versionadded:: 1.8
-    The ``embed`` tag was added in Twig 1.8.
+    ``embed`` タグは、Twig 1.8 で追加されました。
 
-The ``embed`` statement allows you to embed a template instead of including it
-from an external file (like with the ``include`` statement):
+``embed`` ステートメントを使うと、テンプレートを埋め込むことが可能になります。これは、 (``include`` 
+ステートメント を使ったときのように) 外部のファイルからテンプレートをインクルードするやり方の代替手段になります:
 
 .. code-block:: jinja
 
     {% embed "sidebar.twig" %}
         {% block content %}
-            Some content for the sidebar
+            サイドバーのコンテンツ
         {% endblock %}
     {% endembed %}
 
-As it's not easy to understand in which circumstances it might come in handy,
-let's take an example; imagine a base template shared by many pages with a
-single block:
+これが、いったいどのような状況で使えるのか、理解しにくいと思いますので、
+ひとつ例を挙げてみましょう。 まず、ベースになるテンプレートを思い浮かべてみます。このテンプレートは、数多くのページで共有されていて、
+テンプレートには、ブロックが一つあるというものです:
 
 .. code-block:: text
 
@@ -34,7 +34,7 @@ single block:
     │                                     │
     └─────────────────────────────────────┘
 
-Some pages (page 1, 2, ...) share the same structure for the block:
+さて、全部のうちのいくらかのページ (ページ 1, 2, ...) では、そのブロックの中は、どれも同じ構造になっているとしましょう:
 
 .. code-block:: text
 
@@ -51,7 +51,7 @@ Some pages (page 1, 2, ...) share the same structure for the block:
     │                                     │
     └─────────────────────────────────────┘
 
-While other pages (page a, b, ...) share a different structure for the block:
+一方で、ほかのページ (ページ a, b, ...) では、ブロックの中は、それとは、違った構造になっています:
 
 .. code-block:: text
 
@@ -68,68 +68,68 @@ While other pages (page a, b, ...) share a different structure for the block:
     │                                     │
     └─────────────────────────────────────┘
 
-Without the ``embed`` tag, you have two ways to design your templates:
+``embed`` タグを使わずに、このテンプレートをデザインするには、方法が2つあります:
 
- * Create two base templates (one for 1, 2, ... blocks and another one for a,
-   b, ... blocks) to factor out the common template code, then one template
-   for each page that inherits from one of the base template;
+ * 2つのテンプレート (ひとつは、ページ 1, 2, ... のブロック、もう一つは、ページ a,
+   b, ... のブロック) を作成します。こうして、共通のテンプレートコードを切り出します。
+   そのあと、各ページのテンプレートは、ベースのテンプレートを継承したものとします。
 
- * Embed each custom page content directly into each page without any use of
-   external templates (you need to repeat the common code for all templates).
+ * 各ページに直接それぞれのページのそれぞれのコンテンツを埋め込みます。これを、
+   外部のテンプレートを一切使わずに行います (全部のテンプレートで、共通のコードを繰り返し記述する必要があります)。
 
-These two solutions do not scale well because they each have a major drawback:
+これら2つの解決方法は、より複雑な状況に対処できるものではありません。それぞれ、大きな難点を持っているためです:
 
- * The first solution makes you create many external files (that you won't
-   re-use anywhere else) and so it fails to keep your templates readable (many
-   code and content are out of context);
+ * 最初の解決方法では、多数の外部ファイルを作成しなくてはなりません（そしてこれらのファイルは、
+   他では再利用できません）。 その結果、テンプレートを読めるように維持することができなくなります(コードや
+   コンテンツの多くが、読んでいる箇所の外にある状態になります);
 
- * The second solution makes you duplicate some common code from one template
-   to another (so it fails to obey the "Don't repeat yourself" principle).
+ * 2番目の解決方法では、共通のコードをあるテンプレートから別のテンプレートへと複製しなくてはなりません (したがって、
+   "繰り返しをしない（Don't repeat yourself）" 原則に従うことができなくなります)。
 
-In such a situation, the ``embed`` tag fixes all these issues. The common code
-can be factored out in base templates (as in solution 1), and the custom
-content is kept in each page (as in solution 2):
+こういった状況では、``embed`` タグを使えば、これらの問題が全部解決できます。共通のコードは、
+ベースのテンプレートに切り出され (解決方法 1 のように)、そして、各コンテンツは、
+各ページにそれぞれ記述された状態です (解決方法 2 のように):
 
 .. code-block:: jinja
 
-    {# template for pages 1, 2, ... #}
+    {# ページ 1, 2, ... のテンプレート #}
 
     {% extends page %}
 
     {% block base %}
         {% embed "base_A.twig" %}
             {% block content1 %}
-                Content 1 for page 2
+                ページ 2 のコンテンツ 1
             {% endblock %}
 
             {% block content2 %}
-                Content 2 for page 2
+                ページ 2 のコンテンツ 2
             {% endblock %}
         {% endembed %}
     {% endblock %}
 
-And here is the code for ``base_A.twig``:
+それから、``base_A.twig`` のコードは次のようになります:
 
 .. code-block:: jinja
 
-    Some code
+    ここにコード
 
     {% block content1 %}
         Some default content
     {% endblock %}
 
-    Some other code
+    ここに別のコード
 
     {% block content2 %}
         Some default content
     {% endblock %}
 
-    Yet some other code
+    さらに別のコード
 
-The goal of the ``base_a.twig`` base template being to factor out the ``Some
-code``, ``Some other code``, and ``Yet some other code`` parts.
+ベーステンプレート ``base_A.twig`` の最終目標は、``ここにコード``, ``ここに別のコード``, ``さらに別のコード`` 
+と書かれた部分を切り出すことになります。
 
-The ``embed`` tag takes the exact same arguments as the ``include`` tag:
+``embed`` タグは、``include`` タグとまったく同じ引数を取ります:
 
 .. code-block:: jinja
 
@@ -147,10 +147,10 @@ The ``embed`` tag takes the exact same arguments as the ``include`` tag:
 
 .. warning::
 
-    As embedded templates do not have "names", auto-escaping strategies based
-    on the template "filename" won't work as expected if you change the
-    context (for instance, if you embed a CSS/JavaScript template into an HTML
-    one). In that case, explicitly set the default auto-escaping strategy with
-    the ``autoescape`` tag.
+    埋め込みテンプレートには "名前" がありません。自動エスケープのストラテジ（方法）は、
+    テンプレートの "ファイル名"に基づいており、コンテキストが変わると、期待したとおりに動作しません
+    (たとえば、CSS/JavaScript テンプレートをHTMLに埋め込む場合など)。
+    その場合は、``autoescape`` タグで、デフォルトの自動エスケープのストラテジを明示的に、
+    セットしてください。
 
 .. seealso:: :doc:`include<../tags/include>`
