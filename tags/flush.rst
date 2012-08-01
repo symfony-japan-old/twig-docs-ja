@@ -2,9 +2,9 @@
 =========
 
 .. versionadded:: 1.5
-    The flush tag was added in Twig 1.5.
+    flushタグは、Twig 1.5 で追加されました。
 
-The ``flush`` tag tells Twig to flush the output buffer:
+``flush`` タグは、Twigに、出力バッファをフラッシュすることを伝えるためのものです:
 
 .. code-block:: jinja
 
@@ -12,6 +12,6 @@ The ``flush`` tag tells Twig to flush the output buffer:
 
 .. note::
 
-    Internally, Twig uses the PHP `flush`_ function.
+    内部的には、Twigは、PHPの `flush`_ 関数を使用します。
 
 .. _`flush`: http://php.net/flush
