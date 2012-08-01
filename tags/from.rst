@@ -1,8 +1,8 @@
 ``from``
 ========
 
-The ``from`` tags import :doc:`macro<../tags/macro>` names into the current
-namespace. The tag is documented in detail in the documentation for the
-:doc:`import<../tags/import>` tag.
+``from`` タグは、:doc:`macro<../tags/macro>` の名前を現在の名前空間に
+インポートします。 このタグについては、
+:doc:`import<../tags/import>` タグのドキュメントで詳しく解説されています。
 
 .. seealso:: :doc:`macro<../tags/macro>`, :doc:`import<../tags/import>`
