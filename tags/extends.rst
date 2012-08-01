@@ -1,16 +1,16 @@
 ``extends``
 ===========
 
-The ``extends`` tag can be used to extend a template from another one.
+``extends`` は、テンプレートを別のテンプレートから継承するために使用できます。
 
 .. note::
 
-    Like PHP, Twig does not support multiple inheritance. So you can only have
-    one extends tag called per rendering. However, Twig supports horizontal
-    :doc:`reuse<use>`.
+    PHPと同様、Twigでは、多重継承はサポートされません。 ですから、レンダリングにつき、
+    ひとつのextendsタグのみ利用可能です。 しかしながら、Twigでは、水平方向の再利用 ( horizontal
+    :doc:`reuse<use>` ) であれば利用可能です。
 
-Let's define a base template, ``base.html``, which defines a simple HTML
-skeleton document:
+ベースになるテンプレート、 ``base.html`` を定義してみましょう。このテンプレートは、単純なHTMLの
+骨組みのドキュメントを定義するものです:
 
 .. code-block:: html+jinja
 
@@ -19,7 +19,7 @@ skeleton document:
         <head>
             {% block head %}
                 <link rel="stylesheet" href="style.css" />
-                <title>{% block title %}{% endblock %} - My Webpage</title>
+                <title>{% block title %}{% endblock %} - MY ウェブページ</title>
             {% endblock %}
         </head>
         <body>
@@ -32,14 +32,14 @@ skeleton document:
         </body>
     </html>
 
-In this example, the :doc:`block<block>` tags define four blocks that child
-templates can fill in. All the ``block`` tag does is to tell the template
-engine that a child template may override those portions of the template.
+この例では、:doc:`block<tags/block>` タグで、4つのブロックが定義されていますが、
+このブロックの内容は、子テンプレートで埋めることができます。 ``block`` タグが行うことのすべては、
+テンプレートエンジンに、子テンプレートが、各部分をオーバーライドできるのだということを教えるだけなのです。
 
-Child Template
+子テンプレート
 --------------
 
-A child template might look like this:
+子テンプレートは、大体このようになっています:
 
 .. code-block:: jinja
 
@@ -55,27 +55,27 @@ A child template might look like this:
     {% block content %}
         <h1>Index</h1>
         <p class="important">
-            Welcome on my awesome homepage.
+            素晴らしいホームページへようこそ。
         </p>
     {% endblock %}
 
-The ``extends`` tag is the key here. It tells the template engine that this
-template "extends" another template. When the template system evaluates this
-template, first it locates the parent. The extends tag should be the first tag
-in the template.
+:doc:`extends<tags/extends>` タグがここでのキーです。 extendsタグは、テンプレートエンジンに、
+このテンプレートは、別のテンプレートを"extends (継承/拡張)" しているのだと伝えるものです。テンプレートシステムが、
+このテンプレートを評価するときには、まず、親の場所を特定します。 extendsタグは、
+テンプレートの最初のタグでなければならないというわけです。
 
-Note that since the child template doesn't define the ``footer`` block, the
-value from the parent template is used instead.
+ここでは、子テンプレートで、``footer`` ブロックを定義していないので、
+親テンプレートの値が代わりに使用されているのにご注意ください。
 
-You can't define multiple ``block`` tags with the same name in the same
-template. This limitation exists because a block tag works in "both"
-directions. That is, a block tag doesn't just provide a hole to fill - it also
-defines the content that fills the hole in the *parent*. If there were two
-similarly-named ``block`` tags in a template, that template's parent wouldn't
-know which one of the blocks' content to use.
+``block`` タグを同じテンプレートの中で、同じ名前で複数定義することは、
+できません。 blockタグは、「双方向」に動作するので、こういった制限があるのです。
+つまり、blockタグは、埋めるべき穴を提供するだけでなく― 同時に、*親で* この穴を埋める
+コンテンツを定義するものでもある、ということです。 仮に、同じ名前がつけられた、
+2つの ``block`` タグが1つのテンプレートの中にあったとするなら、このテンプレートの親では、
+どちらのブロックのコンテンツを使用すべきかわからないというわけです。
 
-If you want to print a block multiple times you can however use the
-``block`` function:
+しかしながら、あるブロックを複数回表示したいときには、``block`` 関数を使うことが
+できます:
 
 .. code-block:: jinja
 
@@ -83,26 +83,26 @@ If you want to print a block multiple times you can however use the
     <h1>{{ block('title') }}</h1>
     {% block body %}{% endblock %}
 
-Parent Blocks
--------------
+親ブロック
+------------
 
-It's possible to render the contents of the parent block by using the
-:doc:`parent<../functions/parent>` function. This gives back the results of
-the parent block:
+:doc:`parent<../functions/parent>` 関数を使えば、親ブロックの内容を
+レンダリングすることもできます。 この関数により、親ブロックの処理結果が
+返されます:
 
 .. code-block:: jinja
 
     {% block sidebar %}
-        <h3>Table Of Contents</h3>
+        <h3>目次</h3>
         ...
         {{ parent() }}
     {% endblock %}
 
-Named Block End-Tags
---------------------
+名前付きのBlock閉じタグ
+-----------------------
 
-Twig allows you to put the name of the block after the end tag for better
-readability:
+可読性を高めるため、Twigでは、閉じタグの後に、ブロックの名前を
+書くこともできます:
 
 .. code-block:: jinja
 
@@ -112,13 +112,13 @@ readability:
         {% endblock inner_sidebar %}
     {% endblock sidebar %}
 
-Of course, the name after the ``endblock`` word must match the block name.
+当然のことながら、``endblock`` の後の名前は、ブロックの名前と一致していなければなりません。
 
-Block Nesting and Scope
------------------------
+ブロックのネストとスコープ
+--------------------------
 
-Blocks can be nested for more complex layouts. Per default, blocks have access
-to variables from outer scopes:
+ブロックは入れ子にして、さらに複雑なレイアウトにすることもできます。 デフォルトでは、ブロックは、
+外のスコープの変数にアクセスすることもできます:
 
 .. code-block:: jinja
 
@@ -126,11 +126,11 @@ to variables from outer scopes:
         <li>{% block loop_item %}{{ item }}{% endblock %}</li>
     {% endfor %}
 
-Block Shortcuts
----------------
+ブロック・ショートカット
+------------------------
 
-For blocks with few content, it's possible to use a shortcut syntax. The
-following constructs do the same:
+内容が少ないブロックのために、ショートカットの構文を使用することができます。 次に挙げる構成は、
+どちらも同じものです:
 
 .. code-block:: jinja
 
@@ -142,17 +142,17 @@ following constructs do the same:
 
     {% block title page_title|title %}
 
-Dynamic Inheritance
--------------------
+動的継承
+------------
 
-Twig supports dynamic inheritance by using a variable as the base template:
+Twigでは、動的継承を利用することができますが、これは、変数をベースのテンプレートとして使用することで可能になります:
 
 .. code-block:: jinja
 
     {% extends some_var %}
 
-If the variable evaluates to a ``Twig_Template`` object, Twig will use it as
-the parent template::
+変数が ``Twig_Template`` オブジェクトとして評価できれば、Twigでは、それを親のテンプレートとして
+使います::
 
     // {% extends layout %}
 
@@ -161,27 +161,27 @@ the parent template::
     $twig->display('template.twig', array('layout' => $layout));
 
 .. versionadded:: 1.2
-    The possibility to pass an array of templates has been added in Twig 1.2.
+    テンプレートの配列を渡すことができる機能は、Twig 1.2 で追加されました。
 
-You can also provide a list of templates that are checked for existence. The
-first template that exists will be used as a parent:
+テンプレートのリストを渡すこともでき、渡されたテンプレートは、それぞれ存在するかチェックされて使用されます。 最初の
+テンプレートが存在する場合、それが親として利用されます:
 
 .. code-block:: jinja
 
     {% extends ['layout.html', 'base_layout.html'] %}
 
-Conditional Inheritance
------------------------
+条件付き継承
+------------
 
-As the template name for the parent can be any valid Twig expression, it's
-possible to make the inheritance mechanism conditional:
+親テンプレートの名前には、有効などんな Twig の式でも使うこともできます。 これにより、
+継承のメカニズムを条件付きにすることができます:
 
 .. code-block:: jinja
 
     {% extends standalone ? "minimum.html" : "base.html" %}
 
-In this example, the template will extend the "minimum.html" layout template
-if the ``standalone`` variable evaluates to ``true``, and "base.html"
-otherwise.
+この例では、``standalone`` 変数が ``true`` と評価される場合は、
+このテンプレートは、"minimum.html" レイアウトテンプレートを継承し、さもなくば、"base.html"を
+継承します。
 
 .. seealso:: :doc:`block<../functions/block>`, :doc:`block<../tags/block>`, :doc:`parent<../functions/parent>`, :doc:`use<../tags/use>`
