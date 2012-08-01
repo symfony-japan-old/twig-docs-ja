@@ -1,21 +1,21 @@
 ``filter``
 ==========
 
-Filter sections allow you to apply regular Twig filters on a block of template
-data. Just wrap the code in the special ``filter`` section:
+フィルタタグは、テンプレートデータの中のあるブロックに、標準の Twig フィルタを適用できる
+というものです。 このために用意された、``filter`` タグで単にコードを囲んでください:
 
 .. code-block:: jinja
 
     {% filter upper %}
-        This text becomes uppercase
+        このテキストは大文字になります
     {% endfilter %}
 
-You can also chain filters:
+フィルタを続けて呼び出すこともできます:
 
 .. code-block:: jinja
 
     {% filter lower|escape %}
-        <strong>SOME TEXT</strong>
+        <strong>何かのテキスト</strong>
     {% endfilter %}
 
-    {# outputs "&lt;strong&gt;some text&lt;/strong&gt;" #}
+    {# "&lt;strong&gt;何かのテキスト&lt;/strong&gt;" と出力されます #}
