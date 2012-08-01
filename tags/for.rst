@@ -1,8 +1,8 @@
 ``for``
 =======
 
-Loop over each item in a sequence. For example, to display a list of users
-provided in a variable called ``users``:
+シーケンスの各要素を反復処理します。 例えば、``users`` という変数により与えられたユーザーのリストを
+表示するには次のようにします:
 
 .. code-block:: jinja
 
@@ -15,11 +15,11 @@ provided in a variable called ``users``:
 
 .. note::
 
-    A sequence can be either an array or an object implementing the
-    ``Traversable`` interface.
+    配列もしくは、``Traversable`` インターフェースを実装したオブジェクトは、どちらも
+    シーケンスとすることができます。
 
-If you do need to iterate over a sequence of numbers, you can use the ``..``
-operator:
+連続する数値を反復処理する必要があるときは、``..`` 演算子を
+使用できます:
 
 .. code-block:: jinja
 
@@ -27,9 +27,9 @@ operator:
         * {{ i }}
     {% endfor %}
 
-The above snippet of code would print all numbers from 0 to 10.
+上のコードでは、0 から 10 までの数字がすべて表示されます。
 
-It can be also useful with letters:
+この演算子は、文字にも利用できます:
 
 .. code-block:: jinja
 
@@ -37,7 +37,7 @@ It can be also useful with letters:
         * {{ letter }}
     {% endfor %}
 
-The ``..`` operator can take any expression at both sides:
+``..`` 演算子は、両端にどんな式でも取ることができます:
 
 .. code-block:: jinja
 
@@ -47,43 +47,43 @@ The ``..`` operator can take any expression at both sides:
 
 .. tip:
 
-    If you need a step different from 1, you can use the ``range`` function
-    instead.
+    1以外のステップの単位が必要な場合は、``range`` 関数を代わりに
+    使うことができます。
 
-The `loop` variable
+`loop` 変数
 -------------------
 
-Inside of a ``for`` loop block you can access some special variables:
+``for`` ループブロックの中では、特別な変数にアクセスできます:
 
 ===================== =============================================================
-Variable              Description
+変数                  説明
 ===================== =============================================================
-``loop.index``        The current iteration of the loop. (1 indexed)
-``loop.index0``       The current iteration of the loop. (0 indexed)
-``loop.revindex``     The number of iterations from the end of the loop (1 indexed)
-``loop.revindex0``    The number of iterations from the end of the loop (0 indexed)
-``loop.first``        True if first iteration
-``loop.last``         True if last iteration
-``loop.length``       The number of items in the sequence
-``loop.parent``       The parent context
+``loop.index``        ループの現在のイテレーション (1 からスタート)
+``loop.index0``       ループの現在のイテレーション (0 からスタート)
+``loop.revindex``     ループの最後から数えたイテレーション番号 (1 からスタート)
+``loop.revindex0``    ループの最後から数えたイテレーション番号 (0 からスタート)
+``loop.first``        最初のイテレーションのときにTrue
+``loop.last``         最後のイテレーションのときにTrue
+``loop.length``       シーケンスの要素の数
+``loop.parent``       親のコンテキスト
 ===================== =============================================================
 
 .. note::
 
-    The ``loop.length``, ``loop.revindex``, ``loop.revindex0``, and
-    ``loop.last`` variables are only available for PHP arrays, or objects that
-    implement the ``Countable`` interface. They are also not available when
-    looping with a condition.
+    ``loop.length``, ``loop.revindex``, ``loop.revindex0``, 
+    ``loop.last`` 変数が、PHPの配列の時か、オブジェクトで ``Countable`` インターフェースを
+    実装しているときのみ使用できます。 また、条件付きのループの場合は、
+    どれも使用できません。
 
 .. versionadded:: 1.2
-    The ``if`` modifier support has been added in Twig 1.2.
+    Twig 1.2 より、``if`` 修飾子が追加されました。
 
-Adding a condition
+条件の追加
 ------------------
 
-Unlike in PHP, it's not possible to ``break`` or ``continue`` in a loop. You
-can however filter the sequence during iteration which allows you to skip
-items. The following example skips all the users which are not active:
+PHPとは異なり、``break`` または、 ``continue`` をループの中で実行することはできません。 しかしながら、
+シーケンスを反復処理中にフィルタリングすることは可能で、これにより、要素を
+スキップすることができます。 次の例は、アクティブでないユーザを全てスキップするというものです:
 
 .. code-block:: jinja
 
@@ -93,23 +93,23 @@ items. The following example skips all the users which are not active:
         {% endfor %}
     </ul>
 
-The advantage is that the special loop variable will count correctly thus not
-counting the users not iterated over. Keep in mind that properties like
-``loop.last`` will not be defined when using loop conditions.
+こうすることの利点は、反復処理されないユーザーについては、カウントされないので、
+loop変数が正しくカウントされるということです。 ``loop.last`` のようなプロパティは、
+ループ条件を使った場合には、定義されないということを覚えておいてください。
 
 .. note::
 
-    Using the ``loop`` variable within the condition is not recommended as it
-    will probably not be doing what you expect it to. For instance, adding a
-    condition like ``loop.index > 4`` won't work as the index is only
-    incremented when the condition is true (so the condition will never
-    match).
+    条件の中で、``loop`` 変数を使用することは、推奨されません。 これは、
+    おそらく、期待するようには、動作しないからです。 例えば、``loop.index > 4`` のような
+    条件を追加したとしても動作しません。条件が true になっときにのみ、インデックスが加算される
+    からです (ですから、この条件には、決して一致することは
+    ありません)。
 
-The `else` Clause
------------------
+`else` 句
+------------
 
-If no iteration took place because the sequence was empty, you can render a
-replacement block by using ``else``:
+シーケンスが空で、反復処理が行われない場合には、``else`` を使って、
+代替のブロックをレンダリングすることができます:
 
 .. code-block:: jinja
 
@@ -117,33 +117,33 @@ replacement block by using ``else``:
         {% for user in users %}
             <li>{{ user.username|e }}</li>
         {% else %}
-            <li><em>no user found</em></li>
+            <li><em>ユーザーが見つかりませんでした</em></li>
         {% endfor %}
     </ul>
 
-Iterating over Keys
--------------------
+キーの反復処理
+--------------
 
-By default, a loop iterates over the values of the sequence. You can iterate
-on keys by using the ``keys`` filter:
+デフォルトでは、ループでは、シーケンスの値の方が繰り返し処理されます。 ``keys`` フィルタを使えば、
+キーを繰り返し処理できます:
 
 .. code-block:: jinja
 
-    <h1>Members</h1>
+    <h1>メンバー</h1>
     <ul>
         {% for key in users|keys %}
             <li>{{ key }}</li>
         {% endfor %}
     </ul>
 
-Iterating over Keys and Values
-------------------------------
+キーと値の反復処理
+------------------
 
-You can also access both keys and values:
+キーと値の両方にアクセスすることもできます:
 
 .. code-block:: jinja
 
-    <h1>Members</h1>
+    <h1>メンバー</h1>
     <ul>
         {% for key, user in users %}
             <li>{{ key }}: {{ user.username|e }}</li>
