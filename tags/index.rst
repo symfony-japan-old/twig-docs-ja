@@ -1,4 +1,4 @@
-Tags
+タグ
 ====
 
 .. toctree::
