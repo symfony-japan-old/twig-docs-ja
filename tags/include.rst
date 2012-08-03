@@ -1,57 +1,57 @@
 ``include``
 ===========
 
-The ``include`` statement includes a template and return the rendered content
-of that file into the current namespace:
+``include`` ステートメントは、テンプレートをインクルードし、インクルードしたファイルの内容をレンダリングしたものを
+現在の名前空間に返します:
 
 .. code-block:: jinja
 
     {% include 'header.html' %}
-        Body
+        本文
     {% include 'footer.html' %}
 
-Included templates have access to the variables of the active context.
+インクルードされたテンプレートは、現在有効なコンテキストの変数へのアクセスが可能です。
 
-If you are using the filesystem loader, the templates are looked for in the
-paths defined by it.
+ファイルシステムローダーを使っている場合は、テンプレートは、ローダーで定義されているパスの中を
+探します。
 
-You can add additional variables by passing them after the ``with`` keyword:
+追加の変数を加えることもできますが、こうするには、``with`` キーワードの後に変数を渡します:
 
 .. code-block:: jinja
 
-    {# the foo template will have access to the variables from the current context and the foo one #}
+    {# テンプレート foo は、現在のコンテキストの変数と、変数 foo にアクセスできます #}
     {% include 'foo' with {'foo': 'bar'} %}
 
     {% set vars = {'foo': 'bar'} %}
     {% include 'foo' with vars %}
 
-You can disable access to the context by appending the ``only`` keyword:
+現在のコンテキストへのアクセスを無効にすることもでき、``only`` キーワードを加えることで、これができます:
 
 .. code-block:: jinja
 
-    {# only the foo variable will be accessible #}
+    {# 変数 foo のみアクセスできます #}
     {% include 'foo' with {'foo': 'bar'} only %}
 
 .. code-block:: jinja
 
-    {# no variable will be accessible #}
+    {# どの変数もアクセスできません #}
     {% include 'foo' only %}
 
 .. tip::
 
-    When including a template created by an end user, you should consider
-    sandboxing it. More information in the :doc:`Twig for Developers<../api>`
-    chapter and in the :doc:`sandbox<../tags/sandbox>` tag documentation.
+    エンドユーザーが作成したテンプレートをインクルードするときには、これをサンドボックス化する
+    ことを考慮すべきです。 :doc:`開発者のための Twig<../api>` の章、
+    それから、:doc:`sandbox<../tags/sandbox>` タグ のドキュメントで、これについてのさらに詳しい情報をご覧いただけます。
 
-The template name can be any valid Twig expression:
+テンプレートの名前には、有効な Twig の式であれば、どれも使えます:
 
 .. code-block:: jinja
 
     {% include some_var %}
     {% include ajax ? 'ajax.html' : 'not_ajax.html' %}
 
-And if the expression evaluates to a ``Twig_Template`` object, Twig will use it
-directly::
+式が ``Twig_Template`` オブジェクトとして評価された場合は、Twig はそれを
+直接使います::
 
     // {% include template %}
 
@@ -60,11 +60,11 @@ directly::
     $twig->loadTemplate('template.twig')->display(array('template' => $template));
 
 .. versionadded:: 1.2
-    The ``ignore missing`` feature has been added in Twig 1.2.
+    ``ignore missing`` の機能は、Twig 1.2から追加されています。
 
-You can mark an include with ``ignore missing`` in which case Twig will ignore
-the statement if the template to be ignored does not exist. It has to be
-placed just after the template name. Here some valid examples:
+include を ``ignore missing`` でマークすると、テンプレートが見つからない場合には、
+Twigがステートメントを無視するようにできます。 これは、テンプレート名の
+すぐ後に記述しなければなりません。 有効な例を下記にいくつか挙げます:
 
 .. code-block:: jinja
 
@@ -73,14 +73,14 @@ placed just after the template name. Here some valid examples:
     {% include "sidebar.html" ignore missing only %}
 
 .. versionadded:: 1.2
-    The possibility to pass an array of templates has been added in Twig 1.2.
+    Twig 1.2 よりテンプレートの配列を渡すことが可能になっています。
 
-You can also provide a list of templates that are checked for existence before
-inclusion. The first template that exists will be included:
+また、テンプレートのリストを渡すこともでき、リストのテンプレートがインクルードされる前に、
+存在するか確認されます。 最初に存在したテンプレートがインクルードされます:
 
 .. code-block:: jinja
 
     {% include ['page_detailed.html', 'page.html'] %}
 
-If ``ignore missing`` is given, it will fall back to rendering nothing if none
-of the templates exist, otherwise it will throw an exception.
+``ignore missing`` が指定されたときで、テンプレートが一つも見つからない場合には、
+フォールバックして何もレンダリングされません、指定されていない場合は、例外がスローされます。
