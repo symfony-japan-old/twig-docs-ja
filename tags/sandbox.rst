@@ -1,8 +1,8 @@
 ``sandbox``
 ===========
 
-The ``sandbox`` tag can be used to enable the sandboxing mode for an included
-template, when sandboxing is not enabled globally for the Twig environment:
+``sandbox`` タグを使えば、インクルードしたテンプレートでサンドボックスモードが有効になります。
+Twig の環境で、サンドボックス化がグローバルに有効化されていない場合に、これが利用できます:
 
 .. code-block:: jinja
 
@@ -12,14 +12,14 @@ template, when sandboxing is not enabled globally for the Twig environment:
 
 .. warning::
 
-    The ``sandbox`` tag is only available when the sandbox extension is
-    enabled (see the :doc:`Twig for Developers<../api>` chapter).
+    ``sandbox`` タグは、sandbox エクステンションが有効になっているときのみ
+    使用できます (:doc:`開発者のための Twig<../api>` の章をご覧ください)。
 
 .. note::
 
-    The ``sandbox`` tag can only be used to sandbox an include tag and it
-    cannot be used to sandbox a section of a template. The following example
-    won't work for example:
+    ``sandbox`` タグは、includeタグをサンドボックス化するときにのみ使用でき、
+    テンプレートのどこかの領域をサンドボックス化するためには、使用できません。 次の例は、
+    動作しない例です:
 
     .. code-block:: jinja
 

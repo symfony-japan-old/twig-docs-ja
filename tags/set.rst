@@ -1,8 +1,8 @@
 ``set``
 =======
 
-Inside code blocks you can also assign values to variables. Assignments use
-the ``set`` tag and can have multiple targets:
+コードブロックの中で、変数に値を代入することもできます。 代入には
+``set`` タグを使用し、これは、複数の対象への代入も可能です:
 
 .. code-block:: jinja
 
@@ -16,7 +16,7 @@ the ``set`` tag and can have multiple targets:
 
     {% set foo, bar = 'foo', 'bar' %}
 
-The ``set`` tag can also be used to 'capture' chunks of text:
+``set`` タグは、テキストの塊を 'キャプチャ' するためにも使用できます:
 
 .. code-block:: jinja
 
@@ -28,5 +28,5 @@ The ``set`` tag can also be used to 'capture' chunks of text:
 
 .. caution::
 
-    If you enable automatic output escaping, Twig will only consider the
-    content to be safe when capturing chunks of text.
+    自動エスケープを有効にしている場合、Twigでは、テキストの塊を
+    キャプチャする時にのみ、内容を安全にするよう考慮されます。
