@@ -68,6 +68,12 @@
 ``loop.parent``       親のコンテキスト
 ===================== =============================================================
 
+.. code-block:: jinja
+
+    {% for user in users %}
+        {{ loop.index }} - {{ user.username }}
+    {% endfor %}
+
 .. note::
 
     ``loop.length``, ``loop.revindex``, ``loop.revindex0``, 
@@ -149,3 +155,5 @@ loop変数が正しくカウントされるということです。 ``loop.last`
             <li>{{ key }}: {{ user.username|e }}</li>
         {% endfor %}
     </ul>
+
+-- 2012/08/08 goohib 843e1f74eea0ebec0d303891e683ea43f0538080
