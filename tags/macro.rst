@@ -89,3 +89,5 @@
     {% endmacro %}
 
 .. seealso:: :doc:`from<../tags/from>`, :doc:`import<../tags/import>`
+
+-- 2012/08/08 goohib 8d00b42e569f469e4e0934f87f82111560da8ac3
