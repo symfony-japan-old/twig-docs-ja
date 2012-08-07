@@ -77,3 +77,5 @@ Twigでは、頻繁に使うコードを :doc:`macros<../tags/macro>` の中に�
     <p>{{ forms.textarea('comment') }}</p>
 
 .. seealso:: :doc:`macro<../tags/macro>`, :doc:`from<../tags/from>`
+
+-- 2012/08/08 goohib ace74cc6a014b7004d3832e607342db84290dc7a

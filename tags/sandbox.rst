@@ -28,3 +28,5 @@ Twig の環境で、サンドボックス化がグローバルに有効化され
                 {{ i }}
             {% endfor %}
         {% endsandbox %}
+
+-- 2012/08/08 goohib 81807ea95b3a733ec237f1fcae9f944bfaadbdab

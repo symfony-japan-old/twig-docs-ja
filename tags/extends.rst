@@ -185,3 +185,5 @@ Twigでは、動的継承を利用することができますが、これは、�
 継承します。
 
 .. seealso:: :doc:`block<../functions/block>`, :doc:`block<../tags/block>`, :doc:`parent<../functions/parent>`, :doc:`use<../tags/use>`
+
+-- 2012/08/08 goohib a61d42084caeadc4cc8c3bd1caded87631c12636
