@@ -9,3 +9,5 @@
 は許可されていません。
 
 .. seealso:: :doc:`block<../functions/block>`, :doc:`parent<../functions/parent>`, :doc:`use<../tags/use>`, :doc:`extends<../tags/extends>`
+
+.. 2012/08/08 goohib 98a859b424b00b5d263b2016ce9b7e47f6b0a53c
