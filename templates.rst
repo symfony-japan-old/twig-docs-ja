@@ -54,6 +54,8 @@ IDEの統合
 * *Sublime Text* は、 `Twig bundle`_ でサポートされます
 * *GtkSourceView* は、 `Twig language definition`_ でサポートされます (geditなどのプロジェクトで使用)
 * *Coda* と *SubEthaEdit* は、 `Twig syntax mode`_ でサポートされます
+* *Coda 2* は、 `other Twig syntax mode`_ でサポートされます
+* *Komodo* と *Komodo Edit* は、Djangoのハイライト/構文チェックモードでサポートされます
 
 変数
 --------
@@ -71,6 +73,15 @@ IDEの統合
 
     {{ foo.bar }}
     {{ foo['bar'] }}
+
+属性に特殊な文字が含まれる場合 (たとえば、``-`` などの文字で、この文字は、マイナス演算子
+として解釈されます)、変数の属性には、``attribute`` 関数を代わりに使って
+アクセスします:
+
+.. code-block:: jinja
+
+    {# foo.data-foo と同じ。foo.data-foo は動作しませんが #}
+    {{ attribute(foo, 'data-foo') }}
 
 .. note::
 
@@ -191,7 +202,7 @@ IDEの統合
 
 .. code-block:: jinja
 
-    <h1>Members</h1>
+    <h1>メンバー</h1>
     <ul>
         {% for user in users %}
             <li>{{ user.username|e }}</li>
@@ -269,7 +280,7 @@ Twig の最も強力なところといえば、テンプレート継承です。
 しておくことができます。
 
 難しく聞こえるかもしれませんが、非常に簡単です。 一つの例から始めるのが、
-これを理解する一番の近道です。
+これを理解する近道です。
 
 基本になるテンプレート ``base.html`` を定義してみましょう。 このテンプレートでは、単純な2カラム構成のページとして使えるもので、
 簡単なHTMLの骨組みのドキュメントが定義されています:
@@ -370,15 +381,23 @@ Twigでは、両方とも利用でき、デフォルトでは、自動エスケ�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 手動でのエスケープが有効な場合、必要に応じて、変数をエスケープするのは、*あなたの*
-責任になります。 何をエスケープすればよいのでしょうか？ もし変数に、文字列 (``>``, ``<``, ``&``, または ``"``) 
-を含む *可能性がある* 場合、変数の内容が、的確に整形され、信頼できるものでない限り、
-それをエスケープしなければなりません。 エスケープは、:doc:`escape<filters/escape>` または ``e`` フィルタを通じて、
+責任になります。 何をエスケープすればよいのでしょうか？ 信頼できない変数はすべてです。
+
+エスケープは、:doc:`escape<filters/escape>` または ``e`` フィルタを通じて、
 パイプされて処理されます:
 
 .. code-block:: jinja
 
     {{ user.username|e }}
+
+デフォルトでは、``escape`` フィルタでは、``html`` ストラテジが使われますが、これは、エスケープのコンテキスト
+によって異なります。他に利用可能なストラテジを明示的に使うことも
+できます:
+
     {{ user.username|e('js') }}
+    {{ user.username|e('css') }}
+    {{ user.username|e('url') }}
+    {{ user.username|e('html_attr') }}
 
 自動でのエスケープを利用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -389,8 +408,18 @@ Twigでは、両方とも利用でき、デフォルトでは、自動エスケ�
 
 .. code-block:: jinja
 
-    {% autoescape true %}
-        このブロックの中は何でも自動でエスケープされます
+    {% autoescape %}
+        このブロックの中は何でも（HTMLストラテジを使って）自動でエスケープされます。
+    {% endautoescape %}
+
+デフォルトでは、自動エスケープでは、``html`` ストラテジが使用されます。 変数を
+他のコンテキストで出力したいときは、適切なエスケープストラテジで、
+明示的にエスケープする必要があります:
+
+.. code-block:: jinja
+
+    {% autoescape 'js' %}
+        このブロックの中は何でも（JSストラテジを使って）自動でエスケープされます。
     {% endautoescape %}
 
 エスケープ
@@ -414,11 +443,10 @@ Twigで、ある部分を変数やブロックとして取り扱いつつも、�
 --------
 
 マクロは、通常のプログラム言語の関数と比較対比されるものです。 マクロは、
-頻繁に使われるHTMLのイディオムを再利用可能な要素として配置するために使うことができ、これにより、
-繰り返しの記述を避けることができます。
+頻繁に使われるHTMLの一部を再利用するために使うことができ、これにより、繰り返しの記述を避けることができます。
 
-マクロは、:doc:`macro<tags/macro>` タグを使って定義します。 次は、マクロの簡単な例で、
-form 要素をレンダリングする例になります:
+マクロは、:doc:`macro<tags/macro>` タグを使って定義します。 次は、マクロの簡単な例で（あとで、
+``forms.html`` という名前で出てきます）、form 要素をレンダリングする例になります:
 
 .. code-block:: jinja
 
@@ -435,20 +463,19 @@ form 要素をレンダリングする例になります:
 
     <p>{{ forms.input('username') }}</p>
 
-別のやり方もあり、:doc:`from<tags/from>` タグを使って、現在の名前空間に、
-テンプレートから名前をインポートすることもできます:
+別のやり方として、マクロをそれぞれインポートすることもでき、:doc:`from<tags/from>` タグを使って、現在の名前空間に、
+テンプレートから名前をインポートし、加えて、任意で別名をつけることもできます:
 
 .. code-block:: jinja
 
-    {% from 'forms.html' import input as input_field, textarea %}
+    {% from 'forms.html' import input as input_field %}
 
     <dl>
-        <dt>ユーザ名</dt>
+        <dt>ユーザー名</dt>
         <dd>{{ input_field('username') }}</dd>
         <dt>パスワード</dt>
-        <dd>{{ input_field('password', type='password') }}</dd>
+        <dd>{{ input_field('password', '', 'password') }}</dd>
     </dl>
-    <p>{{ textarea('comment') }}</p>
 
 式
 --------
@@ -681,7 +708,7 @@ Twigでは値の計算が可能です。 テンプレートでは、めったに
     {# 出力は、<div><strong>foo</strong></div> となります #}
 
 spaceless タグの他に、タグひとつひとつのレベルで、空白文字をコントロール
-することもできます。 タグで、空白文字コントロール修飾を使えば、
+することもできます。 タグで、空白文字コントロール修飾子を使えば、
 前後の空白文字をトリミングできます:
 
 .. code-block:: jinja
@@ -694,7 +721,7 @@ spaceless タグの他に、タグひとつひとつのレベルで、空白文�
 
     {# 'no spaces' が出力されます #}
 
-上の例では、デフォルトの、空白文字コントロール修飾が使われており、どうやって、
+上の例では、デフォルトの、空白文字コントロール修飾子が使われており、どうやって、
 タグの周りの空白文字を除去するかが示されています。 スペースのトリミングは、
 タグのサイドにある空白文字を全部除去します。 タグの一方のサイドだけ空白文字をトリミングすることも
 できます:
@@ -711,7 +738,8 @@ spaceless タグの他に、タグひとつひとつのレベルで、空白文�
 
 Twigは、簡単に拡張可能です。
 
-新しいタグ、フィルタ、関数などをお探しでしたら、Twig 公式の `エクステンション・リポジトリ`_ をご覧ください。
+新しいタグ、フィルタ、関数などをお探しでしたら、Twig 公式の `エクステンション・リポジトリ`_ を
+ご覧ください。
 
 独自のエクステンションを作成したい場合は、 :ref:`エクステンションの
 作成<creating_extensions>` の章をお読みください。
@@ -723,3 +751,6 @@ Twigは、簡単に拡張可能です。
 .. _`Twig language definition`: https://github.com/gabrielcorpse/gedit-twig-template-language
 .. _`エクステンション・リポジトリ`:     http://github.com/fabpot/Twig-extensions
 .. _`Twig syntax mode`:         https://github.com/bobthecow/Twig-HTML.mode
+.. _`other Twig syntax mode`:   https://github.com/muxx/Twig-HTML.mode
+
+-- 2012/08/07 goohib d70860f5f5263ec8aa7d8f81729ff79793985a6b
