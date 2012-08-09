@@ -1,7 +1,7 @@
 ``merge``
 =========
 
-The ``merge`` filter merges an array with the another array:
+``merge`` フィルタは、ある配列を別の配列にマージします:
 
 .. code-block:: jinja
 
@@ -11,9 +11,9 @@ The ``merge`` filter merges an array with the another array:
 
     {# values now contains [1, 2, 'apple', 'orange'] #}
 
-New values are added at the end of the existing ones.
+新しい値が、既存の値の末尾に追加されます。
 
-The ``merge`` filter also works on hashes:
+``merge`` フィルタは、ハッシュでも動作します:
 
 .. code-block:: jinja
 
@@ -23,14 +23,14 @@ The ``merge`` filter also works on hashes:
 
     {# items now contains { 'apple': 'fruit', 'orange': 'fruit', 'peugeot': 'car', 'renault': 'car' } #}
 
-For hashes, the merging process occurs on the keys: if the key does not
-already exist, it is added but if the key already exists, its value is
-overridden.
+ハッシュでは、マージの処理は、キーに対して行われます: もしキーが存在しないときには
+追加されますが、キーが既に存在するときは、
+値が上書きされます。
 
 .. tip::
 
-    If you want to ensure that some values are defined in an array (by given
-    default values), reverse the two elements in the call:
+    配列の中のいずれかの値を（デフォルト値を指定して）確実に定義する場合は、
+    呼び出しのときに、2つのマージ対象の要素を逆にしてください:
 
     .. code-block:: jinja
 
@@ -39,3 +39,5 @@ overridden.
         {% set items = { 'apple': 'unknown' }|merge(items) %}
 
         {# items now contains { 'apple': 'fruit', 'orange': 'fruit' } #}
+
+.. 2012/08/09 goohib d95db40838d9d78751f670a5f0050f66efe0fa50
