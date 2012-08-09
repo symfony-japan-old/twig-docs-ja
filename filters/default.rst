@@ -1,22 +1,22 @@
 ``default``
 ===========
 
-The ``default`` filter returns the passed default value if the value is
-undefined or empty, otherwise the value of the variable:
+``default`` フィルタは、渡された値が未定義か空のときに、指定されたデフォルト値を
+返し、そうでないときは、その変数の値を返します:
 
 .. code-block:: jinja
 
-    {{ var|default('var is not defined') }}
+    {{ var|default('varは、定義されていません') }}
 
-    {{ var.foo|default('foo item on var is not defined') }}
+    {{ var.foo|default('varのfoo要素は、定義されていません') }}
 
-    {{ var['foo']|default('foo item on var is not defined') }}
+    {{ var['foo']|default('varのfoo要素は、定義されていません') }}
 
-    {{ ''|default('passed var is empty')  }}
+    {{ ''|default('渡された変数は空です')  }}
 
-When using the ``default`` filter on an expression that uses variables in some
-method calls, be sure to use the ``default`` filter whenever a variable can be
-undefined:
+メソッド呼び出しの中で変数を使う式で ``default`` フィルタを使用するときは、
+変数が未定義になる可能性のあるいずれの場合にも、確実に ``default`` フィルタを
+使用するようにしてください:
 
 .. code-block:: jinja
 
@@ -24,5 +24,7 @@ undefined:
 
 .. note::
 
-    Read the documentation for the :doc:`defined<../tests/defined>` and
-    :doc:`empty<../tests/empty>` tests to learn more about their semantics.
+    「未定義」や「空」の意味について詳しく理解するには、:doc:`defined<../tests/defined>` テストと
+    :doc:`empty<../tests/empty>` テストのドキュメントをお読みください。
+
+.. 2012/08/09 goohib 88dd4ac5797a4ffe702a5eb5a0e5f5f5bea187bf
