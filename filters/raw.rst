@@ -1,12 +1,14 @@
 ``raw``
 =======
 
-The ``raw`` filter marks the value as being "safe", which means that in an
-environment with automatic escaping enabled this variable will not be escaped
-if ``raw`` is the last filter applied to it:
+``raw`` フィルタは、値を "安全である" とマークし、そうすると、
+自動エスケープが有効になっている環境において、この変数がエスケープされないようになります。
+エスケープされないのは、``raw`` が変数に適用される最後のフィルタになっているときです:
 
 .. code-block:: jinja
 
     {% autoescape true %}
-        {{ var|raw }} {# var won't be escaped #}
+        {{ var|raw }} {# var はエスケープされません #}
     {% endautoescape %}
+
+.. 2012/08/09 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84
