@@ -1,10 +1,11 @@
-Filters
+フィルタ
 =======
 
 .. toctree::
     :maxdepth: 1
 
     date
+    date_modify
     format
     replace
     number_format
@@ -19,6 +20,7 @@ Filters
     striptags
     join
     reverse
+    abs
     length
     sort
     default
@@ -28,3 +30,5 @@ Filters
     merge
     slice
     trim
+
+.. 2012/08/09 goohib b98fff166e943709e4053528e4fc6d3646216915
