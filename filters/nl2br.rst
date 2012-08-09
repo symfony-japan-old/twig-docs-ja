@@ -2,21 +2,23 @@
 =========
 
 .. versionadded:: 1.5
-    The nl2br filter was added in Twig 1.5.
+    nl2br フィルタは、Twig 1.5 で追加されました。
 
-The ``nl2br`` filter inserts HTML line breaks before all newlines in a string:
+``nl2br`` フィルタは、改行文字の前に HTML の改行タグを挿入します:
 
 .. code-block:: jinja
 
-    {{ "I like Twig.\nYou will like it too."|nl2br }}
-    {# outputs
+    {{ "Twigが好き。\nあなたもきっと好きになる。"|nl2br }}
+    {# 出力結果
 
-        I like Twig.<br />
-        You will like it too.
+        Twigが好き。<br />
+        あなたもきっと好きになる。
 
     #}
 
 .. note::
 
-    The ``nl2br`` filter pre-escapes the input before applying the
-    transformation.
+    ``nl2br`` フィルタは、変換する前に、入力を
+    事前エスケープ (pre-escape) します。
+
+.. 2012/08/09 goohib 7194b1adaad92a16d6461c5a6fdfa42829df1dfe

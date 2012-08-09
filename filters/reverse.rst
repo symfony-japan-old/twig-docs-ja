@@ -2,9 +2,9 @@
 ===========
 
 .. versionadded:: 1.6
-    Support for strings has been added in Twig 1.6.
+    文字列のサポートは、Twig 1.6 から追加されました。
 
-The ``reverse`` filter reverses a sequence, a mapping, or a string:
+``reverse`` フィルタは、シーケンス、マッピング、または文字列を逆順にします:
 
 .. code-block:: jinja
 
@@ -14,10 +14,12 @@ The ``reverse`` filter reverses a sequence, a mapping, or a string:
 
     {{ '1234'|reverse }}
 
-    {# outputs 4321 #}
+    {# 4321 が出力 #}
 
 .. note::
 
-    It also works with objects implementing the `Traversable`_ interface.
+    これは、`Traversable`_ インターフェースを実装したオブジェクトでも動作します。
 
 .. _`Traversable`: http://php.net/Traversable
+
+.. 2012/08/09 goohib 4578c176e59910f3ebb3b56d7c8d9e9808a511be

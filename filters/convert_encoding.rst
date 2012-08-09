@@ -2,11 +2,11 @@
 ====================
 
 .. versionadded:: 1.4
-    The ``convert_encoding`` filter was added in Twig 1.4.
+    ``convert_encoding`` フィルタは、Twig 1.4 で追加されました。
 
-The ``convert_encoding`` filter converts a string from one encoding to
-another. The first argument is the expected output charset and the second one
-is the input charset:
+``convert_encoding`` フィルタは、文字列を、あるエンコーディングから
+別のエンコーディングに変換します。 第1引数は、出力の文字セットを、第2引数は、
+入力の文字セットを指定します:
 
 .. code-block:: jinja
 
@@ -14,9 +14,11 @@ is the input charset:
 
 .. note::
 
-    This filter relies on the `iconv`_ or `mbstring`_ extension, so one of
-    them must be installed. In case both are installed, `iconv`_ is used
-    by default.
+    このフィルタは、`iconv`_ または、`mbstring`_ エクステンションに依存しているので、
+    どちらかがインストールされていなければなりません。 両方がインストールされている場合は、`mbstring`_ が
+    デフォルトで使用されます (Twig 1.8.1 より前では、`iconv`_ がデフォルトで使用されます)。
 
 .. _`iconv`:    http://php.net/iconv
 .. _`mbstring`: http://php.net/mbstring
+
+.. 2012/08/09 goohib 793660510f6424adc738ccd76be8e76ba827cee0

@@ -1,8 +1,8 @@
 ``length``
 ==========
 
-The ``length`` filters returns the number of items of a sequence or mapping, or
-the length of a string:
+``length`` フィルタは、シーケンスまたはマッピングの要素の数、あるいは、
+文字列の長さを返します:
 
 .. code-block:: jinja
 
@@ -10,3 +10,4 @@ the length of a string:
         ...
     {% endif %}
 
+.. 2012/08/09 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84
