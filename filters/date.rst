@@ -2,64 +2,66 @@
 ========
 
 .. versionadded:: 1.1
-    The timezone support has been added in Twig 1.1.
+    タイムゾーンのサポートは、Twig 1.1 から追加されています。
 
 .. versionadded:: 1.5
-    The default date format support has been added in Twig 1.5.
+    デフォルトの日付書式のサポートは、Twig 1.5 から追加されています。
 
 .. versionadded:: 1.6.1
-    The default timezone support has been added in Twig 1.6.1.
+    デフォルトのタイムゾーンのサポートは、Twig 1.6.1 から追加されています。
 
-The ``date`` filter formats a date to a given format:
+``date`` フィルタは、指定した書式で日付をフォーマットします:
 
 .. code-block:: jinja
 
     {{ post.published_at|date("m/d/Y") }}
 
-The ``date`` filter accepts strings (it must be in a format supported by the
-`date`_ function), `DateTime`_ instances, or `DateInterval`_ instances. For
-instance, to display the current date, filter the word "now":
+``date`` フィルタが受け取れるものは、文字列 (`strtotime`_ 関数でサポートされている
+書式でなければなりません)、`DateTime`_ インスタンス、または、`DateInterval`_ インスタンスです。 
+例えば、現在の日付を表示するには、単語 "now" をフィルタにかけます:
 
 .. code-block:: jinja
 
     {{ "now"|date("m/d/Y") }}
 
-To escape words and characters in the date format use ``\\`` in front of each character:
+日付書式の中の文字や単語をエスケープするには、``\\`` をそれぞれの文字の前に使います:
 
 .. code-block:: jinja
 
     {{ post.published_at|date("F jS \\a\\t g:ia") }}
 
-You can also specify a timezone:
+タイムゾーンを指定することも可能です:
 
 .. code-block:: jinja
 
     {{ post.published_at|date("m/d/Y", "Europe/Paris") }}
 
-If no format is provided, Twig will use the default one: ``F j, Y H:i``. This
-default can be easily changed by calling the ``setDateFormat()`` method on the
-``core`` extension instance. The first argument is the default format for
-dates and the second one is the default format for date intervals:
+書式が指定されないときは、Twigは、デフォルトの書式を使います: ``F j, Y H:i``。 この
+デフォルトは、簡単に変更できますが、それには、``core`` エクステンションのインスタンスの ``setDateFormat()``
+メソッドを呼びます。 第1引数は、日付の、第2引数は、日付間隔の
+デフォルトの書式になります:
 
 .. code-block:: php
 
     $twig = new Twig_Environment($loader);
     $twig->getExtension('core')->setDateFormat('d/m/Y', '%d days');
 
-The default timezone can also be set globally by calling ``setTimezone()``:
+デフォルトのタイムゾーンもグローバルにセットでき、これには、``setTimezone()`` を呼びます:
 
 .. code-block:: php
 
     $twig = new Twig_Environment($loader);
     $twig->getExtension('core')->setTimezone('Europe/Paris');
 
-.. _`date`:         http://www.php.net/date
+.. _`strtotime`:    http://www.php.net/strtotime
 .. _`DateTime`:     http://www.php.net/DateTime
 .. _`DateInterval`: http://www.php.net/DateInterval
 
-If the value passed to the ``date`` filter is null, it will return the current date by default.
-If an empty string is desired instead of the current date, use a ternary operator:
+``date`` フィルタに渡された値が null のときは、デフォルトでは、現在の日時が返ります。
+現在日時の代わりに、空の文字が必要でしたら、3項演算子を使ってください:
 
 .. code-block:: jinja
 
     {{ post.published_at is empty ? "" : post.published_at|date("m/d/Y") }}
+
+.. 2012/08/09 goohib 0366cf6185ce575e8cbd8354880a1f95743505b3

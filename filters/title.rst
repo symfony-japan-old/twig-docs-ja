@@ -1,11 +1,13 @@
 ``title``
 =========
 
-The ``title`` filter returns a titlecased version of the value. Words will
-start with uppercase letters, all remaining characters are lowercase:
+``title`` フィルタは、値をタイトルケースにしたものを返します。 単語は、
+大文字で始まり、残りの文字は小文字になります:
 
 .. code-block:: jinja
 
     {{ 'my first car'|title }}
 
-    {# outputs 'My First Car' #}
+    {# 'My First Car' が出力されます #}
+
+.. 2012/08/09 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84

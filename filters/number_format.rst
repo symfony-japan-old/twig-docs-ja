@@ -2,37 +2,39 @@
 =================
 
 .. versionadded:: 1.5
-    The number_format filter was added in Twig 1.5
+    number_format フィルタは、Twig 1.5 で追加されました
 
-The ``number_format`` filter formats numbers.  It is a wrapper around PHP's
-`number_format`_ function:
+``number_format`` フィルタは、数値をフォーマットします。 このフィルタは、PHP の
+`number_format`_ 関数のラッパーです:
 
 .. code-block:: jinja
 
     {{ 200.35|number_format }}
 
-You can control the number of decimal places, decimal point, and thousands
-separator using the additional arguments:
+小数位の桁数、小数点記号、千の位の区切り文字を
+追加の引数でコントロールできます:
 
 .. code-block:: jinja
 
-    {{ 9800.333|number_format(2, ',', '.') }}
+    {{ 9800.333|number_format(2, '.', ',') }}
 
-If no formatting options are provided then Twig will use the default formatting
-options of:
+書式が指定されないときは、Twigでは、次のようなデフォルトの書式を
+使用します:
 
-- 0 decimal places.
-- ``.`` as the decimal point.
-- ``,`` as the thousands separator.
+- 少数桁は 0。
+- ``.`` を小数点の記号として使用する。
+- ``,`` を千の位の区切り文字として使用する。
 
-These defaults can be easily changed through the core extension:
+コアエクステンションを通じて、このデフォルトは簡単に変更できます:
 
 .. code-block:: php
 
     $twig = new Twig_Environment($loader);
-    $twig->getExtension('core')->setNumberFormat(3, ',', '.');
+    $twig->getExtension('core')->setNumberFormat(3, '.', ',');
 
-The defaults set for ``number_format`` can be over-ridden upon each call using the
-additional parameters.
+``number_format`` にセットするデフォルトは、呼び出しの際に上書きすることができ、
+これには、追加のパラメータを使用します。
 
 .. _`number_format`: http://php.net/number_format
+
+.. 2012/08/09 goohib 1d1b949150ec93cf400b9cd562cb4f0068d33cc2
