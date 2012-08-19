@@ -2,9 +2,9 @@
 =============
 
 .. versionadded:: 1.2
-    The ``attribute`` function was added in Twig 1.2.
+    ``attribute`` 関数は、Twig 1.2 で追加されました。
 
-``attribute`` can be used to access a "dynamic" attribute of a variable:
+``attribute`` は、変数の "動的な" 属性にアクセスするために使えます:
 
 .. code-block:: jinja
 
@@ -14,5 +14,7 @@
 
 .. note::
 
-    The resolution algorithm is the same as the one used for the ``.``
-    notation, except that the item can be any valid expression.
+    導出アルゴリズムは、``.`` 記法で使われているものと同じものですが、
+    要素は、有効な式であれば、いずれも取りうるところが違います。
+
+.. 2012/08/20 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84
