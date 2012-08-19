@@ -2,11 +2,11 @@
 ========
 
 .. versionadded:: 1.5
-    The dump function was added in Twig 1.5.
+    dump 関数は、Twig 1.5 で追加されました。
 
-The ``dump`` function dumps information about a template variable. This is
-mostly useful to debug a template that does not behave as expected by
-introspecting its variables:
+``dump`` 関数は、テンプレート変数についての情報をダンプします。 これは、テンプレートが
+期待した振る舞いにならないときに、その変数の中身を見てみることで、
+テンプレートをデバッグするのに主に役立ちます:
 
 .. code-block:: jinja
 
@@ -14,9 +14,9 @@ introspecting its variables:
 
 .. note::
 
-    The ``dump`` function is not available by default. You must add the
-    ``Twig_Extension_Debug`` extension explicitly when creating your Twig
-    environment::
+    ``dump`` 関数は、デフォルトでは利用できません。 Twig環境を生成する際に、
+    ``Twig_Extension_Debug`` エクステンションを明示的に追加する
+    必要があります::
 
         $twig = new Twig_Environment($loader, array(
             'debug' => true,
@@ -24,12 +24,13 @@ introspecting its variables:
         ));
         $twig->addExtension(new Twig_Extension_Debug());
 
-    Even when enabled, the ``dump`` function won't display anything if the
-    ``debug`` option on the environment is not enabled (to avoid leaking debug
-    information on a production server).
+    エクステンションが有効になっていたとしても、環境の ``debug`` オプションが
+    有効になっていなければ、``dump`` 関数は、何も表示しません
+    (プロダクションサーバーでデバッグ情報が
+    漏れてしまうのを防ぐためです)。
 
-In an HTML context, wrap the output with a ``pre`` tag to make it easier to
-read:
+HTMLのコンテキストでは、読みやすくするために、出力を
+``pre`` タグで囲みます:
 
 .. code-block:: jinja
 
@@ -39,18 +40,18 @@ read:
 
 .. tip::
 
-    Using a ``pre`` tag is not needed when `XDebug`_ is enabled and
-    ``html_errors`` is ``on``; as a bonus, the output is also nicer with
-    XDebug enabled.
+    `XDebug`_ が有効で、``html_errors`` が ``on`` になっているときは、
+    ``pre`` タグの使用は不要です; XDebugが有効な場合は、さらに、
+    出力がより見やすいものにもなります。
 
-You can debug several variables by passing them as additional arguments:
+複数の変数をデバッグすることもでき、それには、追加の引数でそれらを指定します:
 
 .. code-block:: jinja
 
     {{ dump(user, categories) }}
 
-If you don't pass any value, all variables from the current context are
-dumped:
+何も渡さないときは、現在のコンテキストのすべての変数が
+ダンプされます:
 
 .. code-block:: jinja
 
@@ -58,7 +59,9 @@ dumped:
 
 .. note::
 
-    Internally, Twig uses the PHP `var_dump`_ function.
+    内部的には、Twigは、PHPの `var_dump`_ 関数を使います。
 
 .. _`XDebug`:   http://xdebug.org/docs/display
 .. _`var_dump`: http://php.net/var_dump
+
+.. 2012/08/20 goohib 4cd98e62d052a77375adee3e287cfe11857dc996

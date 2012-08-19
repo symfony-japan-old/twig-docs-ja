@@ -1,7 +1,7 @@
 ``cycle``
 =========
 
-The ``cycle`` function cycles on an array of values:
+``cycle`` 関数は、配列の値を循環させます:
 
 .. code-block:: jinja
 
@@ -9,7 +9,7 @@ The ``cycle`` function cycles on an array of values:
         {{ cycle(['odd', 'even'], i) }}
     {% endfor %}
 
-The array can contain any number of values:
+配列には、値がいくつ含まれていても構いません:
 
 .. code-block:: jinja
 
@@ -18,3 +18,5 @@ The array can contain any number of values:
     {% for i in 0..10 %}
         {{ cycle(fruits, i) }}
     {% endfor %}
+
+.. 2012/08/20 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84
