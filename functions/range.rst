@@ -1,7 +1,7 @@
 ``range``
 =========
 
-Returns a list containing an arithmetic progression of integers:
+整数の等差数列のリストを返します:
 
 .. code-block:: jinja
 
@@ -11,8 +11,8 @@ Returns a list containing an arithmetic progression of integers:
 
     {# returns 0, 1, 2, 3 #}
 
-When step is given (as the third parameter), it specifies the increment (or
-decrement):
+ステップ数が渡された場合（第3三引数で）、加算値 (または、
+減算値) が指定されます:
 
 .. code-block:: jinja
 
@@ -22,8 +22,8 @@ decrement):
 
     {# returns 0, 2, 4, 6 #}
 
-The Twig built-in ``..`` operator is just syntactic sugar for the ``range``
-function (with a step of 1):
+Twig のビルトインの ``..`` 演算子は、``range`` 関数の
+シンタックスシュガーです (ステップ数は1になります):
 
 .. code-block:: jinja
 
@@ -33,6 +33,8 @@ function (with a step of 1):
 
 .. tip::
 
-    The ``range`` function works as the native PHP `range`_ function.
+    ``range`` 関数は、PHPネイティブの `range`_ 関数として動作します。
 
 .. _`range`: http://php.net/range
+
+.. 2012/08/20 goohib b096e21daa6647cd23063c3a4e4280ad81df8f84

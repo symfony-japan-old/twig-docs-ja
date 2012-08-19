@@ -1,4 +1,4 @@
-Functions
+関数
 =========
 
 .. toctree::
@@ -13,3 +13,5 @@ Functions
     parent
     dump
     date
+
+.. 2012/08/20 goohib 764829f55a70262fcdd6cc69dfd447a6309088d6
